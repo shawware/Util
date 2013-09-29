@@ -29,7 +29,7 @@ public class SwException extends Exception
     {
         super(message);
         // We'd like to run the parameter tests first, but calls to super() must precede them.
-    	assert ( SwAssert.isNotEmpty(message) );
+    	assert SwAssert.isNotEmpty(message) : "non-empty message";
     }
 
     /**
