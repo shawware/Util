@@ -16,6 +16,9 @@ import java.util.Map;
  * The original motivation for this class was to permit {@link Collection}s
  * to hold values that could be modified, rather than replaced with new
  * values when the need arose. For example, a {@link Map} of counters.
+ * 
+ * The interface is kept fairly basic. If you need more, take a look at
+ * Apache Commons Lang MutableInt (and others).
  */
 public class MutableInteger
 {
@@ -73,4 +76,38 @@ public class MutableInteger
     {
         mValue--;
     }
+
+	@Override
+	public int hashCode()
+	{
+		return Integer.valueOf(mValue).hashCode();
+	}
+
+	@Override
+	public boolean equals(final Object that)
+	{
+		if (this == that)
+		{
+			return true;
+		}
+		if (that == null)
+		{
+			return false;
+		}
+		if (getClass() != that.getClass())
+		{
+			return false;
+		}
+		if (mValue != ((MutableInteger)that).getValue())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return Integer.toString(mValue);
+	}
 }
