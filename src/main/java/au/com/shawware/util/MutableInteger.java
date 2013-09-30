@@ -15,7 +15,7 @@ import java.util.Map;
  * 
  * The original motivation for this class was to permit {@link Collection}s
  * to hold values that could be modified, rather than replaced with new
- * values when the need arose. For example, a {@link Map} of counters.
+ * values, when the need arose. For example, a {@link Map} of counters.
  * 
  * The interface is kept fairly basic. If you need more, take a look at
  * Apache Commons Lang MutableInt (and others).
