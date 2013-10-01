@@ -32,7 +32,13 @@ public final class SwPropertyUtils
         assert SwAssert.isNotEmpty(suffix) : "empty suffix"; //$NON-NLS-1$
 
         final StringBuffer sb = new StringBuffer();
-        sb.append(name).append(ELT_SEPARATOR).append(suffix);
+        sb.append(name);
+        if ((name.charAt(name.length() - 1) != ELT_SEPARATOR) &&
+        	(suffix.charAt(0) != ELT_SEPARATOR))
+        {
+        	sb.append(ELT_SEPARATOR);
+        }
+        sb.append(suffix);
         return sb.toString();
     }
     

@@ -31,6 +31,7 @@ public class SwExceptionTest
 		try
 		{
 			new SwException(null);
+			fail("construction with null message was successful");
 		}
 		catch (AssertionError e)
 		{
@@ -40,6 +41,7 @@ public class SwExceptionTest
 		try
 		{
 			new SwException("");
+			fail("construction with empty message was successful");
 		}
 		catch (AssertionError e)
 		{
@@ -49,6 +51,7 @@ public class SwExceptionTest
 		try
 		{
 			new SwException(null, null);
+			fail("construction with null message and cause was successful");
 		}
 		catch (AssertionError e)
 		{
@@ -58,6 +61,7 @@ public class SwExceptionTest
 		try
 		{
 			new SwException("", null);
+			fail("construction with empty message and null cause was successful");
 		}
 		catch (AssertionError e)
 		{
@@ -67,6 +71,7 @@ public class SwExceptionTest
 		try
 		{
 			new SwException(null, new Throwable("dummy"));
+			fail("construction with null message and non-null cause was successful");
 		}
 		catch (AssertionError e)
 		{
@@ -76,6 +81,7 @@ public class SwExceptionTest
 		try
 		{
 			new SwException("", new Throwable("dummy"));
+			fail("construction with empty message and non-null cause was successful");
 		}
 		catch (AssertionError e)
 		{
@@ -85,6 +91,7 @@ public class SwExceptionTest
 		try
 		{
 			new SwException("something", null);
+			fail("construction with valid message and null cause was successful");
 		}
 		catch (AssertionError e)
 		{

@@ -17,7 +17,6 @@ import org.junit.Assert;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-
 public class MutableIntegerTest
 {
 	@Test
