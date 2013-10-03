@@ -12,14 +12,14 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * This class constructs messages classes for plug-ins.
+ * This class constructs {@link SwMessages} classes for plug-ins.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
 public final class SwMessagesFactory
 {
     /** The map of plug-ins to messages. */
-    private static Map<String, SwMessages> sMessages;
+    private volatile static Map<String, SwMessages> sMessages = null;
     
     /**
      * Returns a message handler for the given plug-in and properties file.
@@ -29,15 +29,23 @@ public final class SwMessagesFactory
      * 
      * @return The plug-ins message handler.
      */
-    // TODO: synch
     public static SwMessages getMessages(final String plugin, final ResourceBundle resources)
     {
         assert SwAssert.isNotEmpty(plugin) : "empty plug-in"; //$NON-NLS-1$
         assert SwAssert.isNotNull(resources) : "null resource bundle"; //$NON-NLS-1$
+        
+        // Snychronize around the creation of the plug-in name to SwMessages map.
         if (sMessages == null)
         {
-            sMessages = new HashMap<String, SwMessages>();
+        	synchronized (SwMessagesFactory.class)
+        	{
+        		if (sMessages == null)
+                {
+                		sMessages = new HashMap<String, SwMessages>();
+                }
+        	}
         }
+        
         if (!sMessages.containsKey(plugin))
         {
             sMessages.put(plugin, new SwMessages(plugin, resources));

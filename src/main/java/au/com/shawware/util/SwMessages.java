@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 /**
  * A utility class for managing messages for a plug-in.
  * Assumes a single properties file per plug-in.
+ * Do not create directly. Retrieve one from {@link SwMessagesFactory}.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
