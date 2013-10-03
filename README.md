@@ -5,10 +5,6 @@ Shawware Java Utility Code
 
 A collection of simple utility classes for use in Java development.
 
-This project is also used for exploring software development technologies,
-eg. Eclipse, Maven, JUnit, Git and GitHub.
-Consequently, the code and tests are often pedantic.
-
 Owner
 -----
 

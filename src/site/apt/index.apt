@@ -1,0 +1,27 @@
+      -----
+      Shawware Java Utility Code
+      -----
+      David Shaw
+
+Overview
+
+  A collection of simple utility classes for use in Java development.
+
+  This project is also used for exploring software development technologies, eg. Eclipse, Maven, JUnit, Git and GitHub.
+  Consequently, the code and tests are often pedantic.
+
+Project Home (@GitHub)
+
+  {{https://github.com/shawware/Util}}
+
+Owner And Copyright Notice
+
+  Copyright \u00a9 2013 {{{http://www.shawware.com.au/}shawware.com.au}}
+
+Java Packages
+
+  au.com.shawware.util - {{{apidocs/index.html}API Docs}}
+
+License
+
+  {{{http://www.gnu.org/copyleft/gpl.html}GNU GPL}}
