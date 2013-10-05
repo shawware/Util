@@ -9,7 +9,7 @@ Owner And Copyright Notice
 --------------------------
 
 Copyright &copy; 2013 <a href="http://www.shawware.com.au/"
-	  title="shawware | software and services you can count on>shawware.com.au</a>
+	  title="shawware | software and services you can count on">shawware.com.au</a>
 
 Packages
 --------
