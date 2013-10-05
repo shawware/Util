@@ -5,10 +5,11 @@ Shawware Java Utility Code
 
 A collection of simple utility classes for use in Java development.
 
-Owner
------
+Owner And Copyright Notice
+--------------------------
 
-Copyright (C) 2013 shawware.com.au
+Copyright &copy; 2013 <a href="http://www.shawware.com.au/"
+	  title="shawware | software and services you can count on>shawware.com.au</a>
 
 Packages
 --------
