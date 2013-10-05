@@ -16,17 +16,13 @@ Project Information
 
   {{https://github.com/shawware/Util}}
 
-* Current Version
-
-  V${project.version}
-
 * Maven Coordinates
 
   ${project.groupId}:${project.artifactId}:${project.version}
 
 * Java Packages
 
-  au.com.shawware.util - {{{apidocs/index.html}API Docs}}
+  au.com.shawware.util
 
 Owner And Copyright Notice
 
