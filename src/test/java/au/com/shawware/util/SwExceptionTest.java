@@ -25,119 +25,119 @@ import org.junit.Test;
  */
 public class SwExceptionTest
 {
-	@Test
-	public void constructorErrorTests()
-	{
-		try
-		{
-			new SwException(null);
-			fail("construction with null message was successful");
-		}
-		catch (AssertionError e)
-		{
-			assertThat(e.getMessage(), equalTo("non-empty message"));
-		}
+    @Test
+    public void constructorErrorTests()
+    {
+        try
+        {
+            new SwException(null);
+            fail("construction with null message was successful");
+        }
+        catch (AssertionError e)
+        {
+            assertThat(e.getMessage(), equalTo("non-empty message"));
+        }
 
-		try
-		{
-			new SwException("");
-			fail("construction with empty message was successful");
-		}
-		catch (AssertionError e)
-		{
-			assertThat(e.getMessage(), equalTo("non-empty message"));
-		}
+        try
+        {
+            new SwException("");
+            fail("construction with empty message was successful");
+        }
+        catch (AssertionError e)
+        {
+            assertThat(e.getMessage(), equalTo("non-empty message"));
+        }
 
-		try
-		{
-			new SwException(null, null);
-			fail("construction with null message and cause was successful");
-		}
-		catch (AssertionError e)
-		{
-			assertThat(e.getMessage(), equalTo("non-empty message"));
-		}
+        try
+        {
+            new SwException(null, null);
+            fail("construction with null message and cause was successful");
+        }
+        catch (AssertionError e)
+        {
+            assertThat(e.getMessage(), equalTo("non-empty message"));
+        }
 
-		try
-		{
-			new SwException("", null);
-			fail("construction with empty message and null cause was successful");
-		}
-		catch (AssertionError e)
-		{
-			assertThat(e.getMessage(), equalTo("non-empty message"));
-		}
+        try
+        {
+            new SwException("", null);
+            fail("construction with empty message and null cause was successful");
+        }
+        catch (AssertionError e)
+        {
+            assertThat(e.getMessage(), equalTo("non-empty message"));
+        }
 
-		try
-		{
-			new SwException(null, new Throwable("dummy"));
-			fail("construction with null message and non-null cause was successful");
-		}
-		catch (AssertionError e)
-		{
-			assertThat(e.getMessage(), equalTo("non-empty message"));
-		}
+        try
+        {
+            new SwException(null, new Throwable("dummy"));
+            fail("construction with null message and non-null cause was successful");
+        }
+        catch (AssertionError e)
+        {
+            assertThat(e.getMessage(), equalTo("non-empty message"));
+        }
 
-		try
-		{
-			new SwException("", new Throwable("dummy"));
-			fail("construction with empty message and non-null cause was successful");
-		}
-		catch (AssertionError e)
-		{
-			assertThat(e.getMessage(), equalTo("non-empty message"));
-		}
+        try
+        {
+            new SwException("", new Throwable("dummy"));
+            fail("construction with empty message and non-null cause was successful");
+        }
+        catch (AssertionError e)
+        {
+            assertThat(e.getMessage(), equalTo("non-empty message"));
+        }
 
-		try
-		{
-			new SwException("something", null);
-			fail("construction with valid message and null cause was successful");
-		}
-		catch (AssertionError e)
-		{
-			assertThat(e.getMessage(), equalTo("null cause"));
-		}
-	}
+        try
+        {
+            new SwException("something", null);
+            fail("construction with valid message and null cause was successful");
+        }
+        catch (AssertionError e)
+        {
+            assertThat(e.getMessage(), equalTo("null cause"));
+        }
+    }
 
-	@Test
-	public void constructorTests()
-	{
-		final String msg = "okay";
-		final Throwable err = new Throwable(msg);
+    @Test
+    public void constructorTests()
+    {
+        final String msg = "okay";
+        final Throwable err = new Throwable(msg);
 
-		SwException ok;
+        SwException ok;
 
-		ok = new SwException(msg);
-		assertThat(ok.getMessage(), equalTo(msg));
-		assertNull("non-null cause", ok.getCause());
+        ok = new SwException(msg);
+        assertThat(ok.getMessage(), equalTo(msg));
+        assertNull("non-null cause", ok.getCause());
 
-		ok = new SwException(msg, err);
-		assertThat(ok.getMessage(), equalTo(msg));
-		assertNotNull("null cause", ok.getCause());
-		assertThat(ok.getCause().getMessage(), equalTo(msg));
-	}
+        ok = new SwException(msg, err);
+        assertThat(ok.getMessage(), equalTo(msg));
+        assertNotNull("null cause", ok.getCause());
+        assertThat(ok.getCause().getMessage(), equalTo(msg));
+    }
 
-	@Test (expected = AssertionError.class)
-	public void nullMessageTest()
-		throws AssertionError
-	{
-		new SwException(null);
-		fail("no assertion error thrown");
-	}
+    @Test (expected = AssertionError.class)
+    public void nullMessageTest()
+        throws AssertionError
+    {
+        new SwException(null);
+        fail("no assertion error thrown");
+    }
 
-	@Test (expected = AssertionError.class)
-	public void emptyMessageTest()
-		throws AssertionError
-	{
-		new SwException("");
-		fail("no assertion error thrown");
-	}
+    @Test (expected = AssertionError.class)
+    public void emptyMessageTest()
+        throws AssertionError
+    {
+        new SwException("");
+        fail("no assertion error thrown");
+    }
 
-	@Test (expected = AssertionError.class)
-	public void nullCauseTest()
-		throws AssertionError
-	{
-		new SwException("something", null);
-		fail("no assertion error thrown");
-	}
+    @Test (expected = AssertionError.class)
+    public void nullCauseTest()
+        throws AssertionError
+    {
+        new SwException("something", null);
+        fail("no assertion error thrown");
+    }
 }

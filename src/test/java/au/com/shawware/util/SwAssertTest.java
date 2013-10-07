@@ -17,18 +17,18 @@ import org.junit.Assert;
  */
 public class SwAssertTest
 {
-	@Test
-	public void nullTests()
-	{
-		Assert.assertFalse("null test", SwAssert.isNotNull(null));
-		Assert.assertTrue("non-null test", SwAssert.isNotNull(new Object()));
-	}
+    @Test
+    public void nullTests()
+    {
+        Assert.assertFalse("null test", SwAssert.isNotNull(null));
+        Assert.assertTrue("non-null test", SwAssert.isNotNull(new Object()));
+    }
 
-	@Test
-	public void emptyTests()
-	{
-		Assert.assertFalse("null test", SwAssert.isNotEmpty(null));
-		Assert.assertFalse("empty string test", SwAssert.isNotEmpty(""));
-		Assert.assertTrue("non-empty string test", SwAssert.isNotEmpty("a"));
-	}
+    @Test
+    public void emptyTests()
+    {
+        Assert.assertFalse("null test", SwAssert.isNotEmpty(null));
+        Assert.assertFalse("empty string test", SwAssert.isNotEmpty(""));
+        Assert.assertTrue("non-empty string test", SwAssert.isNotEmpty("a"));
+    }
 }

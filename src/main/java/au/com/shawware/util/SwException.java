@@ -29,7 +29,7 @@ public class SwException extends Exception
     {
         super(message);
         // We'd like to run the parameter tests first, but calls to super() must precede them.
-        assert SwAssert.isNotEmpty(message) : "non-empty message";
+        assert SwAssert.isNotEmpty(message) : "non-empty message"; //$NON-NLS-1$
     }
 
     /**
@@ -42,7 +42,7 @@ public class SwException extends Exception
     {
         super(message, cause);
         // We'd like to run the parameter tests first, but calls to super() must precede them.
-        assert SwAssert.isNotEmpty(message) : "non-empty message";
-        assert SwAssert.isNotNull(cause) : "null cause";
+        assert SwAssert.isNotEmpty(message) : "non-empty message"; //$NON-NLS-1$
+        assert SwAssert.isNotNull(cause) : "null cause"; //$NON-NLS-1$
     }
 }
