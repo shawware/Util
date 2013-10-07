@@ -19,6 +19,8 @@ import java.util.Map;
  * 
  * The interface is kept fairly basic. If you need more, take a look at
  * Apache Commons Lang MutableInt (and others).
+ *
+ * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
 public class MutableInteger
 {
