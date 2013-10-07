@@ -20,7 +20,7 @@ public class SwException extends Exception
      */
     private static final long serialVersionUID = 3381404193827685120L;
 
-	/**
+    /**
      * Constructs a new exception with the given message.
      * 
      * @param message the explanation of the exception - must not be empty
@@ -29,7 +29,7 @@ public class SwException extends Exception
     {
         super(message);
         // We'd like to run the parameter tests first, but calls to super() must precede them.
-    	assert SwAssert.isNotEmpty(message) : "non-empty message";
+        assert SwAssert.isNotEmpty(message) : "non-empty message";
     }
 
     /**
@@ -42,7 +42,7 @@ public class SwException extends Exception
     {
         super(message, cause);
         // We'd like to run the parameter tests first, but calls to super() must precede them.
-    	assert SwAssert.isNotEmpty(message) : "non-empty message";
-    	assert SwAssert.isNotNull(cause) : "null cause";
+        assert SwAssert.isNotEmpty(message) : "non-empty message";
+        assert SwAssert.isNotNull(cause) : "null cause";
     }
 }

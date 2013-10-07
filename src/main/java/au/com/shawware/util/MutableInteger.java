@@ -30,7 +30,7 @@ public class MutableInteger
      */
     public MutableInteger()
     {
-    	this(0);
+        this(0);
     }
 
     /**
@@ -40,7 +40,7 @@ public class MutableInteger
      */
     public MutableInteger(final int value)
     {
-    	setValue(value);
+        setValue(value);
     }
 
     /**
@@ -77,37 +77,37 @@ public class MutableInteger
         mValue--;
     }
 
-	@Override
-	public int hashCode()
-	{
-		return Integer.valueOf(mValue).hashCode();
-	}
+    @Override
+    public int hashCode()
+    {
+        return Integer.valueOf(mValue).hashCode();
+    }
 
-	@Override
-	public boolean equals(final Object that)
-	{
-		if (this == that)
-		{
-			return true;
-		}
-		if (that == null)
-		{
-			return false;
-		}
-		if (getClass() != that.getClass())
-		{
-			return false;
-		}
-		if (mValue != ((MutableInteger)that).getValue())
-		{
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(final Object that)
+    {
+        if (this == that)
+        {
+            return true;
+        }
+        if (that == null)
+        {
+            return false;
+        }
+        if (getClass() != that.getClass())
+        {
+            return false;
+        }
+        if (mValue != ((MutableInteger)that).getValue())
+        {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString()
-	{
-		return Integer.toString(mValue);
-	}
+    @Override
+    public String toString()
+    {
+        return Integer.toString(mValue);
+    }
 }

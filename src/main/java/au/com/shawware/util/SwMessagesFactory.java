@@ -37,13 +37,13 @@ public final class SwMessagesFactory
         // Snychronize around the creation of the plug-in name to SwMessages map.
         if (sMessages == null)
         {
-        	synchronized (SwMessagesFactory.class)
-        	{
-        		if (sMessages == null)
+            synchronized (SwMessagesFactory.class)
+            {
+                if (sMessages == null)
                 {
-                		sMessages = new HashMap<String, SwMessages>();
+                    sMessages = new HashMap<String, SwMessages>();
                 }
-        	}
+            }
         }
         
         if (!sMessages.containsKey(plugin))
