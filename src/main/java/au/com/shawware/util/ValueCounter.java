@@ -33,7 +33,33 @@ public class ValueCounter<T>
     }
 
     /**
+     * Initialise a counter for the given value.
+     * 
+     * @param value the value to initialise a counter for
+     */
+    public void initialiseCount(final T value)
+    {
+        assert !mValues.containsKey(value);
+        initialise(value);
+    }
+
+    /**
+     * Adds a counter for the given value.
+     * 
+     * @param value the value to count
+     * 
+     * @return the value's counter
+     */
+    private MutableInteger initialise(final T value)
+    {
+        final MutableInteger mi = new MutableInteger();
+        mValues.put(value, mi);
+        return mi;
+    }
+
+    /**
      * Counts an instance of the given value.
+     * Adds a counter for the value if one is not present.
      * 
      * @param value the value to count
      */
@@ -46,8 +72,7 @@ public class ValueCounter<T>
         }
         else
         {
-            mi = new MutableInteger();
-            mValues.put(value, mi);
+            mi = initialise(value);
         }
         mi.increment();
     }

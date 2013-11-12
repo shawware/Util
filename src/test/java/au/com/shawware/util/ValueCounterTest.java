@@ -32,8 +32,11 @@ public class ValueCounterTest
         final ValueCounter<String> ctr = new ValueCounter<String>();
         checkCounts(ctr, 0, 0, 0, 0);
 
+        ctr.initialiseCount(VALUE_2);
+        checkCounts(ctr, 1, 0, 0, 0);
+
         ctr.countValue(VALUE_1);
-        checkCounts(ctr, 1, 1, 0, 0);
+        checkCounts(ctr, 2, 1, 0, 0);
 
         ctr.countValue(VALUE_1);
         ctr.countValue(VALUE_2);
@@ -43,10 +46,13 @@ public class ValueCounterTest
         ctr.countValue(VALUE_2);
         checkCounts(ctr, 2, 2, 3, 0);
 
-        ctr.countValue(VALUE_3);
+        ctr.initialiseCount(VALUE_3);
         ctr.countValue(VALUE_2);
         ctr.countValue(VALUE_2);
         ctr.countValue(VALUE_1);
+        checkCounts(ctr, 3, 3, 5, 0);
+
+        ctr.countValue(VALUE_3);
         checkCounts(ctr, 3, 3, 5, 1);
     }
 

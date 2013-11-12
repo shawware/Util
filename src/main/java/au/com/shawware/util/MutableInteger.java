@@ -52,7 +52,7 @@ public class MutableInteger
     {
         return mValue;
     }
-    
+
     /**
      * Set the current value to the given value.
      * 
