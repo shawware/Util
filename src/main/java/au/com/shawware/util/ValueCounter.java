@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *
  * Counts the number of occurrences of the set of values of type T.
  * 
  * @param <T> the type of the values to count
@@ -21,7 +20,7 @@ import java.util.Set;
  */
 public class ValueCounter<T>
 {
-    /** The values and their counts. */
+    /** The values (of type T) and their counts. */
     private final Map<T, MutableInteger> mValues;
 
     /**
