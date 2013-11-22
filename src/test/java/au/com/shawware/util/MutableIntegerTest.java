@@ -105,6 +105,7 @@ public class MutableIntegerTest
         Assert.assertTrue(miA.equals(miB));
         Assert.assertTrue(miB.equals(miA));
 
+        // Different class!
         Assert.assertFalse(miA.equals(new Integer(miA.getValue())));
     }
 }
