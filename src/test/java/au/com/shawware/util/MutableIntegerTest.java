@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 shawware.com.au
+ * Copyright (C) 2013, 2014 shawware.com.au
  *
  * License: GNU General Public License V3 (or later)
  * http://www.gnu.org/copyleft/gpl.html
@@ -63,13 +63,13 @@ public class MutableIntegerTest
 
         mi.increment();
         Assert.assertThat("inc-dec 1", 1, equalTo(mi.getValue()));
-        mi.increment();
+        mi.incrementBy(1);
         Assert.assertThat("inc-dec 2", 2, equalTo(mi.getValue()));
         mi.increment();
         Assert.assertThat("inc-dec 3", 3, equalTo(mi.getValue()));
         mi.decrement();
         Assert.assertThat("inc-dec 4", 2, equalTo(mi.getValue()));
-        mi.decrement();
+        mi.decrementBy(1);
         Assert.assertThat("inc-dec 5", 1, equalTo(mi.getValue()));
         mi.decrement();
         Assert.assertThat("inc-dec 6", 0, equalTo(mi.getValue()));
@@ -79,6 +79,10 @@ public class MutableIntegerTest
         Assert.assertThat("inc-dec 8", -2, equalTo(mi.getValue()));
         mi.increment();
         Assert.assertThat("inc-dec 9", -1, equalTo(mi.getValue()));
+        mi.incrementBy(5);
+        Assert.assertThat("inc-dec 10", 4, equalTo(mi.getValue()));
+        mi.decrementBy(8);
+        Assert.assertThat("inc-dec 11", -4, equalTo(mi.getValue()));
     }
 
     @Test

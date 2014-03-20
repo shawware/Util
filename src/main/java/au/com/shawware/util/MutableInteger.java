@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 shawware.com.au
+ * Copyright (C) 2013, 2014 shawware.com.au
  *
  * License: GNU General Public License V3 (or later)
  * http://www.gnu.org/copyleft/gpl.html
@@ -72,11 +72,31 @@ public class MutableInteger
     }
 
     /**
+     * Increment the current value by the given amount.
+     * 
+     * @param amount the amount to increment by
+     */
+    public void incrementBy(final int amount)
+    {
+        mValue += amount;
+    }
+
+    /**
      * Decrement the current value.
      */
     public void decrement()
     {
         mValue--;
+    }
+
+    /**
+     * Decrement the current value by the given amount.
+     * 
+     * @param amount the amount to decrement by
+     */
+    public void decrementBy(final int amount)
+    {
+        mValue -= amount;
     }
 
     @Override
