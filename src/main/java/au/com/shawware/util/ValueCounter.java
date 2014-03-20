@@ -65,6 +65,22 @@ public class ValueCounter<T>
      */
     public void countValue(final T value)
     {
+        countValue(value, 1);
+    }
+
+
+    /**
+     * Counts the given amount of instances of the given value.
+     * Adds a counter for the value if one is not present.
+     * 
+     * <code>amount</code> is assumed be strictly positive,
+     * but zero or negative counts are not prevented.
+     * 
+     * @param value the value to count
+     * @param amount the amount to add to the count
+     */
+    public void countValue(final T value, final int amount)
+    {
         final MutableInteger mi;
         if (mValues.containsKey(value))
         {
@@ -74,7 +90,7 @@ public class ValueCounter<T>
         {
             mi = initialise(value);
         }
-        mi.increment();
+        mi.incrementBy(amount);
     }
 
     /**

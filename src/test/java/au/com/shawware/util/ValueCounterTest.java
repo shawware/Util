@@ -38,22 +38,25 @@ public class ValueCounterTest
         ctr.countValue(VALUE_1);
         checkCounts(ctr, 2, 1, 0, 0, 1);
 
-        ctr.countValue(VALUE_1);
+        ctr.countValue(VALUE_1, 3);
         ctr.countValue(VALUE_2);
-        checkCounts(ctr, 2, 2, 1, 0, 3);
+        checkCounts(ctr, 2, 4, 1, 0, 5);
 
+        ctr.countValue(VALUE_2, 4);
         ctr.countValue(VALUE_2);
-        ctr.countValue(VALUE_2);
-        checkCounts(ctr, 2, 2, 3, 0, 5);
+        checkCounts(ctr, 2, 4, 6, 0, 10);
 
         ctr.initialiseCount(VALUE_3);
         ctr.countValue(VALUE_2);
         ctr.countValue(VALUE_2);
         ctr.countValue(VALUE_1);
-        checkCounts(ctr, 3, 3, 5, 0, 8);
+        checkCounts(ctr, 3, 5, 8, 0, 13);
 
         ctr.countValue(VALUE_3);
-        checkCounts(ctr, 3, 3, 5, 1, 9);
+        checkCounts(ctr, 3, 5, 8, 1, 14);
+
+        ctr.countValue(VALUE_3, 2);
+        checkCounts(ctr, 3, 5, 8, 3, 16);
     }
 
     /**
