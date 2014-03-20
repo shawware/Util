@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 shawware.com.au
+ * Copyright (C) 2013, 2014 shawware.com.au
  *
  * License: GNU General Public License V3 (or later)
  * http://www.gnu.org/copyleft/gpl.html
@@ -8,6 +8,7 @@
 package au.com.shawware.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -96,5 +97,22 @@ public class ValueCounter<T>
     public int count(final T value)
     {
         return mValues.containsKey(value) ? mValues.get(value).getValue() : 0;
+    }
+
+    /**
+     * The current total count for all values.
+     * 
+     * @return The current total count for all values.
+     */
+    public int totalCount()
+    {
+        int total = 0;
+        final Iterator<T> i = values().iterator();
+        while (i.hasNext())
+        {
+            final MutableInteger mi = mValues.get(i.next());
+            total += mi.getValue();
+        }
+        return total;
     }
 }

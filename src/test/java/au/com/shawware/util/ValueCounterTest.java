@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 shawware.com.au
+ * Copyright (C) 2013, 2014 shawware.com.au
  *
  * License: GNU General Public License V3 (or later)
  * http://www.gnu.org/copyleft/gpl.html
@@ -30,30 +30,30 @@ public class ValueCounterTest
     public void counterTests()
     {
         final ValueCounter<String> ctr = new ValueCounter<String>();
-        checkCounts(ctr, 0, 0, 0, 0);
+        checkCounts(ctr, 0, 0, 0, 0, 0);
 
         ctr.initialiseCount(VALUE_2);
-        checkCounts(ctr, 1, 0, 0, 0);
+        checkCounts(ctr, 1, 0, 0, 0, 0);
 
         ctr.countValue(VALUE_1);
-        checkCounts(ctr, 2, 1, 0, 0);
+        checkCounts(ctr, 2, 1, 0, 0, 1);
 
         ctr.countValue(VALUE_1);
         ctr.countValue(VALUE_2);
-        checkCounts(ctr, 2, 2, 1, 0);
+        checkCounts(ctr, 2, 2, 1, 0, 3);
 
         ctr.countValue(VALUE_2);
         ctr.countValue(VALUE_2);
-        checkCounts(ctr, 2, 2, 3, 0);
+        checkCounts(ctr, 2, 2, 3, 0, 5);
 
         ctr.initialiseCount(VALUE_3);
         ctr.countValue(VALUE_2);
         ctr.countValue(VALUE_2);
         ctr.countValue(VALUE_1);
-        checkCounts(ctr, 3, 3, 5, 0);
+        checkCounts(ctr, 3, 3, 5, 0, 8);
 
         ctr.countValue(VALUE_3);
-        checkCounts(ctr, 3, 3, 5, 1);
+        checkCounts(ctr, 3, 3, 5, 1, 9);
     }
 
     /**
@@ -64,14 +64,17 @@ public class ValueCounterTest
      * @param expectedCount1 the expected count of value 1
      * @param expectedCount2 the expected count of value 2
      * @param expectedCount3 the expected count of value 3
+     * @param expectedTotal the expected total count for all values
      */
     private void checkCounts(final ValueCounter<String> ctr,
             final int expectedSize, final int expectedCount1,
-            final int expectedCount2, final int expectedCount3)
+            final int expectedCount2, final int expectedCount3,
+            final int expectedTotal)
     {
         Assert.assertThat(ctr.values().size(), equalTo(expectedSize));
         Assert.assertThat(ctr.count(VALUE_1), equalTo(expectedCount1));
         Assert.assertThat(ctr.count(VALUE_2), equalTo(expectedCount2));
         Assert.assertThat(ctr.count(VALUE_3), equalTo(expectedCount3));
+        Assert.assertThat(ctr.totalCount(), equalTo(expectedTotal));
     }
 }
