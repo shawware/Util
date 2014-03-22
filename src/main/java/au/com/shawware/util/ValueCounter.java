@@ -8,7 +8,6 @@
 package au.com.shawware.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -123,10 +122,8 @@ public class ValueCounter<T>
     public int totalCount()
     {
         int total = 0;
-        final Iterator<T> i = values().iterator();
-        while (i.hasNext())
+        for (MutableInteger mi : mValues.values())
         {
-            final MutableInteger mi = mValues.get(i.next());
             total += mi.getValue();
         }
         return total;
