@@ -14,8 +14,10 @@ Copyright &copy; 2013, 2014, 2015 <a href="http://www.shawware.com.au/"
 Packages
 --------
 
+<pre>
 au.com.shawware.util
 au.com.shawware.util.issues
+</pre>
 
 License
 -------
