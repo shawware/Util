@@ -7,12 +7,8 @@
 
 package au.com.shawware.util;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link StringUtil}.
@@ -163,6 +159,7 @@ public class StringUtilUnitTest
      * Test {@link StringUtil#toString(Object[], char)}.
      */
     @Test
+    @SuppressWarnings("boxing")
     public void toStringWithQuotesTest()
     {
         Assert.assertEquals("", StringUtil.toString(null, '\''));
@@ -170,7 +167,6 @@ public class StringUtilUnitTest
         Assert.assertEquals("", StringUtil.toString(new Object[]{}, '\''));
         Assert.assertEquals("''", StringUtil.toString(new Object[1], '\''));
 
-        @SuppressWarnings("boxing")
         final Object[][] data = new Object[][]
         {
             { '\'', new String[]{ "", "" }, "'', ''"},

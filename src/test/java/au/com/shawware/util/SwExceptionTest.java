@@ -26,6 +26,9 @@ import org.junit.Test;
 @SuppressWarnings("nls")
 public class SwExceptionTest
 {
+    /**
+     * Test the various constructors with invalid arguments.
+     */
     @Test
     public void constructorErrorTests()
     {
@@ -100,6 +103,9 @@ public class SwExceptionTest
         }
     }
 
+    /**
+     * Test the various constructors with valid arguments.
+     */
     @Test
     public void constructorTests()
     {
@@ -118,6 +124,11 @@ public class SwExceptionTest
         assertThat(ok.getCause().getMessage(), equalTo(msg));
     }
 
+    /**
+     * Test the constructor throws an exception with invalid arguments.
+     * 
+     * @throws AssertionError the generated exception
+     */
     @Test (expected = AssertionError.class)
     public void nullMessageTest()
         throws AssertionError
@@ -126,6 +137,11 @@ public class SwExceptionTest
         fail("no assertion error thrown");
     }
 
+    /**
+     * Test the constructor throws an exception with invalid arguments.
+     * 
+     * @throws AssertionError the generated exception
+     */
     @Test (expected = AssertionError.class)
     public void emptyMessageTest()
         throws AssertionError
@@ -134,6 +150,11 @@ public class SwExceptionTest
         fail("no assertion error thrown");
     }
 
+    /**
+     * Test the constructor throws an exception with invalid arguments.
+     * 
+     * @throws AssertionError the generated exception
+     */
     @Test (expected = AssertionError.class)
     public void nullCauseTest()
         throws AssertionError

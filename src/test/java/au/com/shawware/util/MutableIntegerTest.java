@@ -20,7 +20,11 @@ import org.junit.Assert;
 @SuppressWarnings("nls")
 public class MutableIntegerTest
 {
+    /**
+     * Test the constructor.
+     */
     @Test
+    @SuppressWarnings("boxing")
     public void constructorTests()
     {
         Assert.assertThat("no value constructor", 0, equalTo(new MutableInteger().getValue()));
@@ -35,13 +39,18 @@ public class MutableIntegerTest
      * 
      * @param value the initial value
      */
+    @SuppressWarnings("boxing")
     private void constructorTest(final int value)
     {
         final MutableInteger mi = new MutableInteger(value);
         Assert.assertThat("constructor(" + value + ")", value, equalTo(mi.getValue()));
     }
 
+    /**
+     * Test the {@link MutableInteger#getValue()} and {@link MutableInteger#setValue(int)}.
+     */
     @Test
+    @SuppressWarnings("boxing")
     public void valueTests()
     {
         final MutableInteger mi = new MutableInteger();
@@ -57,7 +66,12 @@ public class MutableIntegerTest
         Assert.assertThat("toString(0)", "0", equalTo(mi.toString()));
     }
 
+    /**
+     * Test the {@link MutableInteger#increment()}, {@link MutableInteger#incrementBy(int)},
+     * {@link MutableInteger#decrement()} and {@link MutableInteger#decrementBy(int)}.
+     */
     @Test
+    @SuppressWarnings("boxing")
     public void incDecTests()
     {
         final MutableInteger mi = new MutableInteger();
@@ -86,6 +100,9 @@ public class MutableIntegerTest
         Assert.assertThat("inc-dec 11", -4, equalTo(mi.getValue()));
     }
 
+    /**
+     * Test the {@link MutableInteger#equals(Object)}.
+     */
     @Test
     public void equalsTests()
     {

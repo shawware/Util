@@ -18,6 +18,9 @@ import org.junit.Assert;
 @SuppressWarnings("nls")
 public class SwAssertTest
 {
+    /**
+     * Test {@link SwAssert#isNotEmpty(String)}.
+     */
     @Test
     public void nullTests()
     {
@@ -25,6 +28,9 @@ public class SwAssertTest
         Assert.assertTrue("non-null test", SwAssert.isNotNull(new Object()));
     }
 
+    /**
+     * Test {@link SwAssert#isNotEmpty(String)}.
+     */
     @Test
     public void emptyTests()
     {

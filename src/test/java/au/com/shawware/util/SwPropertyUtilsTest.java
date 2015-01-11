@@ -22,6 +22,9 @@ import org.junit.Assert;
 @SuppressWarnings("nls")
 public class SwPropertyUtilsTest
 {
+    /**
+     * Test {@link SwPropertyUtils#appendSuffix(String, String)} with valid arguments.
+     */
     @Test
     public void appendTests()
     {
@@ -36,6 +39,9 @@ public class SwPropertyUtilsTest
         appendTest("alpha.beta.gamma", "delta", "alpha.beta.gamma.delta");
     }
 
+    /**
+     * Test {@link SwPropertyUtils#appendSuffix(String, String)} with invalid arguments.
+     */
     @Test
     public void invalidArgumentTests()
     {

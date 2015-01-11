@@ -27,6 +27,9 @@ public class ValueCounterTest
     /** The third value. */
     private static final String VALUE_3 = "Test-3";
 
+    /**
+     * Test out the ValueCounter interface.
+     */
     @Test
     public void counterTests()
     {
@@ -70,6 +73,7 @@ public class ValueCounterTest
      * @param expectedCount3 the expected count of value 3
      * @param expectedTotal the expected total count for all values
      */
+    @SuppressWarnings("boxing")
     private void checkCounts(final ValueCounter<String> ctr,
             final int expectedSize, final int expectedCount1,
             final int expectedCount2, final int expectedCount3,
