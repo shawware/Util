@@ -5,7 +5,7 @@
   <description>Shawware Java Utility Code
 
 A collection of simple utility classes for use in Java development.</description>
-  <version>0.9.10</version>
+  <version>0.9.11</version>
   <url>https://github.com/shawware/Util</url>
   <parent>
     <groupId>au.com.shawware</groupId>
