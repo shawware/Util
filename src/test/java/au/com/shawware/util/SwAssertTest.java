@@ -15,6 +15,7 @@ import org.junit.Assert;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
+@SuppressWarnings("nls")
 public class SwAssertTest
 {
     @Test
