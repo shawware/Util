@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 shawware.com.au
+ * Copyright (C) 2007, 2015 shawware.com.au
  *
  * License: GNU General Public License V3 (or later)
  * http://www.gnu.org/copyleft/gpl.html
@@ -18,6 +18,48 @@ package au.com.shawware.util;
  */
 public final class SwAssert
 {
+    /**
+     * Asserts that the given boolean is <code>true</code>.
+     * 
+     * @param b the boolean to test
+     */
+    public static void True(final boolean b)
+    {
+        True(b, "untrue"); //$NON-NLS-1$
+    }
+
+    /**
+     * Asserts that the given boolean is <code>true</code>.
+     * 
+     * @param b the boolean to test
+     * @param error the error to report if the boolean is <code>false</code>
+     */
+    public static void True(final boolean b, final String error)
+    {
+        assert b : error;
+    }
+
+    /**
+     * Asserts that the given boolean is <code>false</code>.
+     * 
+     * @param b the boolean to test
+     */
+    public static void False(final boolean b)
+    {
+        False(b, "true"); //$NON-NLS-1$
+    }
+
+    /**
+     * Asserts that the given boolean is <code>false</code>.
+     * 
+     * @param b the boolean to test
+     * @param error the error to report if the boolean is <code>true</code>
+     */
+    public static void False(final boolean b, final String error)
+    {
+        assert !b : error;
+    }
+
     /**
      * Determines whether the given string is not empty.
      * That is, it is neither <code>null</code> or of length 0.
@@ -61,6 +103,6 @@ public final class SwAssert
      */
     public static void notNull(final Object o)
     {
-        assert (o != null) : "null object"; //$NON-NLS-1$
+        assert isNotNull(o) : "null object"; //$NON-NLS-1$
     }
 }
