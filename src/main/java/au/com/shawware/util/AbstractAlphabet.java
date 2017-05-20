@@ -12,6 +12,7 @@ package au.com.shawware.util;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
+@SuppressWarnings("boxing")
 public abstract class AbstractAlphabet implements IAlphabet<Character>
 {
     /** The alphabet in use. */

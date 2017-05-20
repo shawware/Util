@@ -12,6 +12,7 @@ package au.com.shawware.util;
  * 
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
+@SuppressWarnings("boxing")
 public class MatchesAlphabet implements IValidator<String>
 {
     /** The alphabet we must match against. */
