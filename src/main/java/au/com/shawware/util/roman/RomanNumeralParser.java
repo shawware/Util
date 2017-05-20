@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import au.com.shawware.util.MutableInteger;
+import au.com.shawware.util.ValueCounter;
 
 /**
  * Roman Numeral Parser - converts Roman numerals to decimal.
@@ -130,16 +130,15 @@ public class RomanNumeralParser
             return mTokenValues.get(tokens[0]).intValue();
         }
 
-        // Initialise the counts of each token.
-        Map<String, MutableInteger> counts = new HashMap<String, MutableInteger>();
+        ValueCounter<String> counts = new ValueCounter<String>();
         for (int i = 0; i < TOKENS.length; i++)
         {
-            counts.put(TOKENS[i], new MutableInteger());
+            counts.initialiseCount(TOKENS[i]);
         }
 
         // Handle the first token separately.
         Integer previousValue = mTokenValues.get(tokens[0]);
-        counts.get(tokens[0]).increment();
+        counts.countValue(tokens[0]);
         int arabicNumber = previousValue.intValue();
 
         // Process the subsequent tokens.
@@ -152,14 +151,14 @@ public class RomanNumeralParser
             }
             previousValue = currentValue;
 
-            counts.get(tokens[i]).increment();;
+            counts.countValue(tokens[i]);
             arabicNumber += currentValue.intValue();
         }
 
         // Verify the counts - check the maximum is not exceeded.
         for (int i = 0; i < TOKENS.length; i++)
         {
-            if (counts.get(TOKENS[i]).getValue() > MAX_COUNTS[i])
+            if (counts.count(TOKENS[i]) > MAX_COUNTS[i])
             {
                 throw new IllegalArgumentException("too many " + TOKENS[i]);
             }
@@ -186,13 +185,13 @@ public class RomanNumeralParser
      * 
      * @throws IllegalArgumentException an incompatibility is found
      */
-    private void checkForIncompatible(Map<String, MutableInteger> counts, String token, String[] incompatible)
+    private void checkForIncompatible(ValueCounter<String> counts, String token, String[] incompatible)
     {
-        if (counts.get(token).getValue() > 0)
+        if (counts.count(token) > 0)
         {
             for (int i = 0; i < incompatible.length; i++)
             {
-                if (counts.get(incompatible[i]).getValue() > 0)
+                if (counts.count(incompatible[i]) > 0)
                 {
                     throw new IllegalArgumentException(token + " is incompatible with " + incompatible[i]);
                 }
