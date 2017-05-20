@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import au.com.shawware.util.MutableInteger;
+
 /**
  * Roman Numeral Parser - converts Roman numerals to decimal.
- * 
- * Parsing enforces the rules of the code assignment:
  * 
  *   M, C, X and I can occur individually a maximum of three times
  *   D, L, V can occur individually a maximum of once
@@ -32,6 +32,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
+@SuppressWarnings({ "boxing" })
 public class RomanNumeralParser
 {
     /**
@@ -130,15 +131,15 @@ public class RomanNumeralParser
         }
 
         // Initialise the counts of each token.
-        Map<String, Integer> counts = new HashMap<String, Integer>();
+        Map<String, MutableInteger> counts = new HashMap<String, MutableInteger>();
         for (int i = 0; i < TOKENS.length; i++)
         {
-            counts.put(TOKENS[i], 0);
+            counts.put(TOKENS[i], new MutableInteger());
         }
 
         // Handle the first token separately.
         Integer previousValue = mTokenValues.get(tokens[0]);
-        counts.put(tokens[0], 1);
+        counts.get(tokens[0]).increment();
         int arabicNumber = previousValue.intValue();
 
         // Process the subsequent tokens.
@@ -151,14 +152,14 @@ public class RomanNumeralParser
             }
             previousValue = currentValue;
 
-            counts.put(tokens[i], counts.get(tokens[i]) + 1);
+            counts.get(tokens[i]).increment();;
             arabicNumber += currentValue.intValue();
         }
 
         // Verify the counts - check the maximum is not exceeded.
         for (int i = 0; i < TOKENS.length; i++)
         {
-            if (counts.get(TOKENS[i]) > MAX_COUNTS[i])
+            if (counts.get(TOKENS[i]).getValue() > MAX_COUNTS[i])
             {
                 throw new IllegalArgumentException("too many " + TOKENS[i]);
             }
@@ -185,13 +186,13 @@ public class RomanNumeralParser
      * 
      * @throws IllegalArgumentException an incompatibility is found
      */
-    private void checkForIncompatible(Map<String, Integer> counts, String token, String[] incompatible)
+    private void checkForIncompatible(Map<String, MutableInteger> counts, String token, String[] incompatible)
     {
-        if (counts.get(token) > 0)
+        if (counts.get(token).getValue() > 0)
         {
             for (int i = 0; i < incompatible.length; i++)
             {
-                if (counts.get(incompatible[i]) > 0)
+                if (counts.get(incompatible[i]).getValue() > 0)
                 {
                     throw new IllegalArgumentException(token + " is incompatible with " + incompatible[i]);
                 }
