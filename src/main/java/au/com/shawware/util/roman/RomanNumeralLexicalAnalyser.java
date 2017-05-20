@@ -8,25 +8,50 @@
 package au.com.shawware.util.roman;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import au.com.shawware.util.IValidator;
+import au.com.shawware.util.MatchesAlphabet;
+import au.com.shawware.util.NotEmpty;
+
 /**
- * Tokenises a Roman numeral that has been through basic validation.
+ * Provides the lexical analysis of a Roman numeral.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public class RomanNumeralTokeniser
+public class RomanNumeralLexicalAnalyser
 {
     /**
+     * The set of rules for validating a Roman number as a whole. 
+     */
+    private final List<IValidator<String>> mLexicalRules;
+
+    /**
+     * Constructs a new parser.
+     */
+    public RomanNumeralLexicalAnalyser()
+    {
+        mLexicalRules = new ArrayList<IValidator<String>>();
+        mLexicalRules.add(new NotEmpty("roman number")); //$NON-NLS-1$
+        mLexicalRules.add(new MatchesAlphabet(new RomanNumeralAlphabet()));
+    }
+
+    /**
      * Breaks the given Roman number into a set of lexical tokens.
-     * Assumes the number has been through the basic rules checks.
      * 
      * @param number the Roman number to analyse.
      * 
      * @return The list of tokens.
+     * 
+     * @throws IllegalArgumentException if the basic lexical analysis finds an error
      */
-    public String[] tokenise(String number)
+    public String[] analyse(String number)
     {
+        for (IValidator<String> rule : mLexicalRules) {
+            rule.validate(number);
+        }
+
         List<String> tokens = new ArrayList<String>();
         int length = number.length();
         for (int i = 0; i < length; i++)

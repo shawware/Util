@@ -66,7 +66,7 @@ public class RomanNumeralParser
     /**
      * The tokeniser.
      */
-    private final RomanNumeralTokeniser mTokeniser;
+    private final RomanNumeralLexicalAnalyser mTokeniser;
 
     /**
      * Constructs a new parser.
@@ -81,7 +81,7 @@ public class RomanNumeralParser
         mNumberRules = new ArrayList<IValidator<String>>();
         mNumberRules.add(new NotEmpty("roman number")); //$NON-NLS-1$
         mNumberRules.add(new MatchesAlphabet(new RomanNumeralAlphabet()));
-        mTokeniser = new RomanNumeralTokeniser();
+        mTokeniser = new RomanNumeralLexicalAnalyser();
     }
 
     /**
@@ -99,7 +99,7 @@ public class RomanNumeralParser
         for (IValidator<String> rule : mNumberRules) {
             rule.validate(number);
         }
-        String[] tokens = mTokeniser.tokenise(number);
+        String[] tokens = mTokeniser.analyse(number);
         return parseTokens(tokens);
     }
 
