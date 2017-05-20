@@ -8,7 +8,7 @@ A collection of simple utility classes for use in Java development.
 Owner And Copyright Notice
 --------------------------
 
-Copyright &copy; 2013, 2014, 2015 <a href="http://www.shawware.com.au/"
+Copyright &copy; 2013, 2014, 2015, 2016, 2017 <a href="http://www.shawware.com.au/"
 	  title="shawware | software and services you can count on">shawware.com.au</a>
 
 Packages
@@ -17,6 +17,7 @@ Packages
 <pre>
 au.com.shawware.util
 au.com.shawware.util.issues
+au.com.shawware.util.roman
 </pre>
 
 License
