@@ -41,7 +41,7 @@ public final class SwPropertyUtils
         sb.append(suffix);
         return sb.toString();
     }
-    
+
     /**
      * Default constructor. Private to prevent use.
      */
