@@ -57,11 +57,16 @@ public class RomanNumeralParser
      * The map of the tokens to their value.
      */
     private final Map<String, Integer> mTokenValues;
-    
+
     /**
      * The set of rules for validating a Roman number as a whole. 
      */
     private final List<IValidator<String>> mNumberRules;
+
+    /**
+     * The tokeniser.
+     */
+    private final RomanNumeralTokeniser mTokeniser;
 
     /**
      * Constructs a new parser.
@@ -76,6 +81,7 @@ public class RomanNumeralParser
         mNumberRules = new ArrayList<IValidator<String>>();
         mNumberRules.add(new NotEmpty("roman number")); //$NON-NLS-1$
         mNumberRules.add(new MatchesAlphabet(new RomanNumeralAlphabet()));
+        mTokeniser = new RomanNumeralTokeniser();
     }
 
     /**
@@ -93,7 +99,8 @@ public class RomanNumeralParser
         for (IValidator<String> rule : mNumberRules) {
             rule.validate(number);
         }
-        return parseTokens(tokenise(number));
+        String[] tokens = mTokeniser.tokenise(number);
+        return parseTokens(tokens);
     }
 
     /**
@@ -180,84 +187,5 @@ public class RomanNumeralParser
                 }
             }
         }
-    }
-
-    /**
-     * Breaks the given Roman number into a set of lexical tokens.
-     * 
-     * @param number the Roman number to analyse.
-     * 
-     * @return The list of tokens.
-     * 
-     * @throws IllegalArgumentException invalid character encountered
-     */
-    private String[] tokenise(String number)
-    {
-        List<String> tokens = new ArrayList<String>();
-        int length = number.length();
-        for (int i = 0; i < length; i++)
-        {
-            char c = number.charAt(i);
-            String token = null;
-            // If there a next character and we could be at the start of a 2-char token.
-            if ((i < (length - 1)) && ((c == 'I') || (c == 'X') || (c == 'C')))
-            {
-                char next = number.charAt(i + 1);
-                if (c == 'I')
-                {
-                    token = extractTwoCharacterToken(c, next, 'V', 'X');
-                }
-                else if (c == 'X')
-                {
-                    token = extractTwoCharacterToken(c, next, 'L', 'C');
-                }
-                else if (c == 'C')
-                {
-                    token = extractTwoCharacterToken(c, next, 'D', 'M');
-                }
-                // If we found a 2-char token, skip past the second char
-                if (token != null)
-                {
-                    i++;
-                }
-            }
-            // If token is unset, it was not a 2-char token, so we just use the current char.
-            if (token == null)
-            {
-                token = String.valueOf(c);
-            }
-            tokens.add(token);
-        }
-        String[] result = new String[tokens.size()];
-        tokens.toArray(result);
-        return result;
-    }
-
-    /**
-     * Determines whether there is a two-character token in the input.
-     * 
-     * @param current the current character
-     * @param next the next character
-     * @param secondA the first possibility for the second character
-     * @param secondB the second possibility for the second character
-     * 
-     * @return The two-character token if it's present, otherwise null.
-     */
-    private String extractTwoCharacterToken(char current, char next, char secondA, char secondB)
-    {
-        StringBuffer buf = new StringBuffer();
-        boolean is2Digit = false;
-        buf.append(current);
-        if (next == secondA)
-        {
-            is2Digit = true;
-            buf.append(secondA);
-        }
-        else if (next == secondB)
-        {
-            is2Digit = true;
-            buf.append(secondB);
-        }
-        return is2Digit ? buf.toString() : null;
     }
 }
