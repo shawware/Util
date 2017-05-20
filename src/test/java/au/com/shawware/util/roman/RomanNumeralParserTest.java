@@ -117,7 +117,8 @@ public class RomanNumeralParserTest
     public void testInvalidNumbers()
     {
         String[][] fixture = {
-                { "",           "empty number" },
+                { null,         "empty roman number" },
+                { "",           "empty roman number" },
                 { " ",          "invalid character ' '" },
                 { "A",          "invalid character 'A'" },
                 { "VIIB",       "invalid character 'B'" },

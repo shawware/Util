@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import au.com.shawware.util.IValidator;
+import au.com.shawware.util.MatchesAlphabet;
+import au.com.shawware.util.NotEmpty;
 import au.com.shawware.util.ValueCounter;
 
 /**
@@ -36,11 +39,6 @@ import au.com.shawware.util.ValueCounter;
 public class RomanNumeralParser
 {
     /**
-     * The Roman numeral alphabet.
-     */
-    private static char[] ALPHABET = { 'I', 'V', 'X', 'L', 'C', 'D', 'M' };
-
-    /**
      * Roman numerals are based on a set of tokens, not just its alphabet.
      */
     private static String[] TOKENS = { "I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M" };
@@ -56,42 +54,28 @@ public class RomanNumeralParser
     private static int[] VALUES = { 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000 };
 
     /**
-     * The alphabet as a set.
-     */
-    private Set<Character> mAlphabet;
-
-    /**
      * The map of the tokens to their value.
      */
-    private Map<String, Integer> mTokenValues;
+    private final Map<String, Integer> mTokenValues;
+    
+    /**
+     * The set of rules for validating a Roman number as a whole. 
+     */
+    private final List<IValidator<String>> mNumberRules;
 
     /**
      * Constructs a new parser.
      */
     public RomanNumeralParser()
     {
-        mAlphabet = new HashSet<Character>();
-        for (int i = 0; i < ALPHABET.length; i++)
-        {
-            mAlphabet.add(ALPHABET[i]);
-        }
         mTokenValues = new HashMap<String, Integer>();
         for (int i = 0; i < TOKENS.length; i++)
         {
             mTokenValues.put(TOKENS[i], VALUES[i]);
         }
-    }
-
-    /**
-     * Determines whether the given character is a valid Roman numeral.
-     * 
-     * @param c the character to test
-     * 
-     * @return Whether the character is valid.
-     */
-    public boolean validNumeral(char c)
-    {
-        return mAlphabet.contains(c);
+        mNumberRules = new ArrayList<IValidator<String>>();
+        mNumberRules.add(new NotEmpty("roman number")); //$NON-NLS-1$
+        mNumberRules.add(new MatchesAlphabet(new RomanNumeralAlphabet()));
     }
 
     /**
@@ -106,9 +90,8 @@ public class RomanNumeralParser
     public int parse(String number)
         throws IllegalArgumentException
     {
-        if ((number == null) || (number.length() == 0))
-        {
-            throw new IllegalArgumentException("empty number");
+        for (IValidator<String> rule : mNumberRules) {
+            rule.validate(number);
         }
         return parseTokens(tokenise(number));
     }
@@ -215,10 +198,6 @@ public class RomanNumeralParser
         for (int i = 0; i < length; i++)
         {
             char c = number.charAt(i);
-            if (!validNumeral(c))
-            {
-                throw new IllegalArgumentException("invalid character '" + c + "' at index " + i);
-            }
             String token = null;
             // If there a next character and we could be at the start of a 2-char token.
             if ((i < (length - 1)) && ((c == 'I') || (c == 'X') || (c == 'C')))
