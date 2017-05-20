@@ -7,16 +7,9 @@
 
 package au.com.shawware.util.roman;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import au.com.shawware.util.IValidator;
-import au.com.shawware.util.MatchesAlphabet;
-import au.com.shawware.util.NotEmpty;
 import au.com.shawware.util.ValueCounter;
 
 /**
@@ -35,53 +28,48 @@ import au.com.shawware.util.ValueCounter;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings({ "boxing" })
+//@SuppressWarnings({ "boxing" })
 public class RomanNumeralParser
 {
-    /**
-     * Roman numerals are based on a set of tokens, not just its alphabet.
-     */
-    private static String[] TOKENS = { "I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M" };
+    /** Specify the valid tokens and their properties. */
+    @SuppressWarnings("nls")
+    private static RomanNumeralToken[] TOKENS = {
+        new RomanNumeralToken("I",  3,    1),
+        new RomanNumeralToken("IV", 1,    4),
+        new RomanNumeralToken("V",  1,    5),
+        new RomanNumeralToken("IX", 1,    9),
+        new RomanNumeralToken("X",  3,   10),
+        new RomanNumeralToken("XL", 1,   40),
+        new RomanNumeralToken("L",  1,   50),
+        new RomanNumeralToken("XC", 1,   90),
+        new RomanNumeralToken("C",  3,  100),
+        new RomanNumeralToken("CD", 1,  400),
+        new RomanNumeralToken("D",  1,  500),
+        new RomanNumeralToken("CM", 1,  900),
+        new RomanNumeralToken("M",  3, 1000),
+    };
 
     /**
-     * The maximum number of times a token can appear.
+     * The map of the token to their properties.
      */
-    private static int[] MAX_COUNTS = { 3, 1, 1, 1, 3, 1, 1, 1, 3, 1, 1, 1, 3 };
-
-    /**
-     * The Arabic value of each token.
-     */
-    private static int[] VALUES = { 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000 };
-
-    /**
-     * The map of the tokens to their value.
-     */
-    private final Map<String, Integer> mTokenValues;
-
-    /**
-     * The set of rules for validating a Roman number as a whole. 
-     */
-    private final List<IValidator<String>> mNumberRules;
+    private final Map<String, RomanNumeralToken> mTokens;
 
     /**
      * The tokeniser.
      */
-    private final RomanNumeralLexicalAnalyser mTokeniser;
+    private final RomanNumeralLexicalAnalyser mAnalyser;
 
     /**
      * Constructs a new parser.
      */
     public RomanNumeralParser()
     {
-        mTokenValues = new HashMap<String, Integer>();
+        mTokens = new HashMap<String, RomanNumeralToken>();
         for (int i = 0; i < TOKENS.length; i++)
         {
-            mTokenValues.put(TOKENS[i], VALUES[i]);
+            mTokens.put(TOKENS[i].getToken(), TOKENS[i]);
         }
-        mNumberRules = new ArrayList<IValidator<String>>();
-        mNumberRules.add(new NotEmpty("roman number")); //$NON-NLS-1$
-        mNumberRules.add(new MatchesAlphabet(new RomanNumeralAlphabet()));
-        mTokeniser = new RomanNumeralLexicalAnalyser();
+        mAnalyser = new RomanNumeralLexicalAnalyser();
     }
 
     /**
@@ -96,10 +84,7 @@ public class RomanNumeralParser
     public int parse(String number)
         throws IllegalArgumentException
     {
-        for (IValidator<String> rule : mNumberRules) {
-            rule.validate(number);
-        }
-        String[] tokens = mTokeniser.analyse(number);
+        String[] tokens = mAnalyser.analyse(number);
         return parseTokens(tokens);
     }
 
@@ -117,24 +102,24 @@ public class RomanNumeralParser
     {
         if (tokens.length == 1)
         {
-            return mTokenValues.get(tokens[0]).intValue();
+            return mTokens.get(tokens[0]).getArabicValue();
         }
 
         ValueCounter<String> counts = new ValueCounter<String>();
         for (int i = 0; i < TOKENS.length; i++)
         {
-            counts.initialiseCount(TOKENS[i]);
+            counts.initialiseCount(TOKENS[i].getToken());
         }
 
         // Handle the first token separately.
-        Integer previousValue = mTokenValues.get(tokens[0]);
+        int previousValue = mTokens.get(tokens[0]).getArabicValue();
         counts.countValue(tokens[0]);
-        int arabicNumber = previousValue.intValue();
+        int arabicNumber = previousValue;
 
         // Process the subsequent tokens.
         for (int i = 1; i < tokens.length; i++)
         {
-            Integer currentValue = mTokenValues.get(tokens[i]);
+            int currentValue = mTokens.get(tokens[i]).getArabicValue();
             if (currentValue > previousValue)
             {
                 throw new IllegalArgumentException(tokens[i-1] + " comes before " + tokens[i]);
@@ -142,15 +127,15 @@ public class RomanNumeralParser
             previousValue = currentValue;
 
             counts.countValue(tokens[i]);
-            arabicNumber += currentValue.intValue();
+            arabicNumber += currentValue;
         }
 
         // Verify the counts - check the maximum is not exceeded.
         for (int i = 0; i < TOKENS.length; i++)
         {
-            if (counts.count(TOKENS[i]) > MAX_COUNTS[i])
+            if (counts.count(TOKENS[i].getToken()) > TOKENS[i].getMaxCount())
             {
-                throw new IllegalArgumentException("too many " + TOKENS[i]);
+                throw new IllegalArgumentException("too many " + TOKENS[i].getToken());
             }
         }
 
