@@ -8,7 +8,6 @@
 package au.com.shawware.util.roman;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import au.com.shawware.util.IValidator;
@@ -102,6 +101,7 @@ public class RomanNumeralLexicalAnalyser
      * 
      * @return The two-character token if it's present, otherwise null.
      */
+    @SuppressWarnings("static-method")
     private String extractTwoCharacterToken(char current, char next, char secondA, char secondB)
     {
         StringBuffer buf = new StringBuffer();

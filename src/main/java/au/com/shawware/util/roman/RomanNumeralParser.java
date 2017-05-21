@@ -7,10 +7,10 @@
 
 package au.com.shawware.util.roman;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import au.com.shawware.util.ValueCounter;
 
 /**
  * Roman Numeral Parser - converts Roman numerals to decimal.
@@ -28,7 +28,6 @@ import au.com.shawware.util.ValueCounter;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-//@SuppressWarnings({ "boxing" })
 public class RomanNumeralParser
 {
     /** Specify the valid tokens and their properties. */
@@ -55,9 +54,14 @@ public class RomanNumeralParser
     private final Map<String, RomanNumeralToken> mTokens;
 
     /**
-     * The tokeniser.
+     * The lexical analyser.
      */
     private final RomanNumeralLexicalAnalyser mAnalyser;
+
+    /**
+     * The set of rules to validate the tokens against.
+     */
+    private final List<ITokensValidator> mParsingRules;
 
     /**
      * Constructs a new parser.
@@ -70,6 +74,11 @@ public class RomanNumeralParser
             mTokens.put(TOKENS[i].getToken(), TOKENS[i]);
         }
         mAnalyser = new RomanNumeralLexicalAnalyser();
+        mParsingRules = new ArrayList<ITokensValidator>();
+        mParsingRules.add(new NotEmpty());
+        mParsingRules.add(new OrderedByValue(mTokens));
+        mParsingRules.add(new MaximumsHonoured(mTokens));
+        mParsingRules.add(new Compatible(mTokens));
     }
 
     /**
@@ -100,77 +109,17 @@ public class RomanNumeralParser
      */
     private int parseTokens(String[] tokens)
     {
-        if (tokens.length == 1)
+        for (ITokensValidator rule : mParsingRules)
         {
-            return mTokens.get(tokens[0]).getArabicValue();
+            rule.validate(tokens);
         }
 
-        ValueCounter<String> counts = new ValueCounter<String>();
-        for (int i = 0; i < TOKENS.length; i++)
+        int arabicNumber = 0;
+        for (int i = 0; i < tokens.length; i++)
         {
-            counts.initialiseCount(TOKENS[i].getToken());
+            arabicNumber += mTokens.get(tokens[i]).getArabicValue();
         }
 
-        // Handle the first token separately.
-        int previousValue = mTokens.get(tokens[0]).getArabicValue();
-        counts.countValue(tokens[0]);
-        int arabicNumber = previousValue;
-
-        // Process the subsequent tokens.
-        for (int i = 1; i < tokens.length; i++)
-        {
-            int currentValue = mTokens.get(tokens[i]).getArabicValue();
-            if (currentValue > previousValue)
-            {
-                throw new IllegalArgumentException(tokens[i-1] + " comes before " + tokens[i]);
-            }
-            previousValue = currentValue;
-
-            counts.countValue(tokens[i]);
-            arabicNumber += currentValue;
-        }
-
-        // Verify the counts - check the maximum is not exceeded.
-        for (int i = 0; i < TOKENS.length; i++)
-        {
-            if (counts.count(TOKENS[i].getToken()) > TOKENS[i].getMaxCount())
-            {
-                throw new IllegalArgumentException("too many " + TOKENS[i].getToken());
-            }
-        }
-
-        // Verify the incompatible tokens as per the rules
-        checkForIncompatible(counts, "CM", new String[]{"C", "CD", "D"});
-        checkForIncompatible(counts, "CD", new String[]{"C", "D"});
-        checkForIncompatible(counts, "XC", new String[]{"X", "XL", "L"});
-        checkForIncompatible(counts, "XL", new String[]{"X", "L"});
-        checkForIncompatible(counts, "IX", new String[]{"I", "IV", "V"});
-        checkForIncompatible(counts, "IV", new String[]{"I", "V"});
-
-        // If we get here it is a valid number so we return its Arabic value.
         return arabicNumber;
-    }
-
-    /**
-     * Checks for incompatible tokens.
-     * 
-     * @param counts the token counts
-     * @param token the token to test
-     * @param incompatible the set of tokens it is incompatible with
-     * 
-     * @throws IllegalArgumentException an incompatibility is found
-     */
-    private void checkForIncompatible(ValueCounter<String> counts, String token, String[] incompatible)
-    {
-        if (counts.count(token) > 0)
-        {
-            for (int i = 0; i < incompatible.length; i++)
-            {
-                if (counts.count(incompatible[i]) > 0)
-                {
-                    throw new IllegalArgumentException(token + " is incompatible with " + incompatible[i]);
-                }
-            }
-        }
     }
 }
