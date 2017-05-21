@@ -9,13 +9,15 @@ package au.com.shawware.util.roman;
 
 import java.util.Map;
 
+import au.com.shawware.util.IValidator;
+
 /**
  * Verifies that the tokens are monotonically decreasing in value.
  * That is, each token is greater than or equal to the previous one.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public class OrderedByValue implements ITokensValidator
+public class OrderedByValue implements IValidator<String[]>
 {
     /** The map of tokens to their properties. */
     private final Map<String, RomanNumeralToken> mTokens;

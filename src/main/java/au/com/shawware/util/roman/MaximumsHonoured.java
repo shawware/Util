@@ -9,6 +9,7 @@ package au.com.shawware.util.roman;
 
 import java.util.Map;
 
+import au.com.shawware.util.IValidator;
 import au.com.shawware.util.ValueCounter;
 
 /**
@@ -16,7 +17,7 @@ import au.com.shawware.util.ValueCounter;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public class MaximumsHonoured implements ITokensValidator
+public class MaximumsHonoured implements IValidator<String[]>
 {
     /** The map of tokens to their properties. */
     private final Map<String, RomanNumeralToken> mTokens;

@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import au.com.shawware.util.IValidator;
+
 /**
  * Roman Numeral Parser - converts Roman numerals to decimal.
  * 
@@ -61,7 +63,7 @@ public class RomanNumeralParser
     /**
      * The set of rules to validate the tokens against.
      */
-    private final List<ITokensValidator> mParsingRules;
+    private final List<IValidator<String[]>> mParsingRules;
 
     /**
      * Constructs a new parser.
@@ -74,7 +76,7 @@ public class RomanNumeralParser
             mTokens.put(TOKENS[i].getToken(), TOKENS[i]);
         }
         mAnalyser = new RomanNumeralLexicalAnalyser();
-        mParsingRules = new ArrayList<ITokensValidator>();
+        mParsingRules = new ArrayList<IValidator<String[]>>();
         mParsingRules.add(new NotEmpty());
         mParsingRules.add(new OrderedByValue(mTokens));
         mParsingRules.add(new MaximumsHonoured(mTokens));
@@ -108,7 +110,7 @@ public class RomanNumeralParser
      */
     private void parseTokens(String[] tokens)
     {
-        for (ITokensValidator rule : mParsingRules)
+        for (IValidator<String[]> rule : mParsingRules)
         {
             rule.validate(tokens);
         }

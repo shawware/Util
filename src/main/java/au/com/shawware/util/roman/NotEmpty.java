@@ -7,6 +7,7 @@
 
 package au.com.shawware.util.roman;
 
+import au.com.shawware.util.IValidator;
 import au.com.shawware.util.StringUtil;
 
 /**
@@ -14,7 +15,7 @@ import au.com.shawware.util.StringUtil;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-public class NotEmpty implements ITokensValidator
+public class NotEmpty implements IValidator<String[]>
 {
     /* (non-Javadoc)
      * @see au.com.shawware.util.roman.ITokensValidator#validate(au.com.shawware.util.roman.RomanNumeralToken[])
