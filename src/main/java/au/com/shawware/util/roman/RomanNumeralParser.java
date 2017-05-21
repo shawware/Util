@@ -33,19 +33,19 @@ public class RomanNumeralParser
     /** Specify the valid tokens and their properties. */
     @SuppressWarnings("nls")
     private static RomanNumeralToken[] TOKENS = {
-        new RomanNumeralToken("I",  3,    1),
-        new RomanNumeralToken("IV", 1,    4),
-        new RomanNumeralToken("V",  1,    5),
-        new RomanNumeralToken("IX", 1,    9),
-        new RomanNumeralToken("X",  3,   10),
-        new RomanNumeralToken("XL", 1,   40),
-        new RomanNumeralToken("L",  1,   50),
-        new RomanNumeralToken("XC", 1,   90),
-        new RomanNumeralToken("C",  3,  100),
-        new RomanNumeralToken("CD", 1,  400),
-        new RomanNumeralToken("D",  1,  500),
-        new RomanNumeralToken("CM", 1,  900),
-        new RomanNumeralToken("M",  3, 1000),
+        new RomanNumeralToken("I",  3,    1, new String[]{}),
+        new RomanNumeralToken("IV", 1,    4, new String[]{"I"}),
+        new RomanNumeralToken("V",  1,    5, new String[]{"IV"}),
+        new RomanNumeralToken("IX", 1,    9, new String[]{"V", "IV", "I"}),
+        new RomanNumeralToken("X",  3,   10, new String[]{}),
+        new RomanNumeralToken("XL", 1,   40, new String[]{"X"}),
+        new RomanNumeralToken("L",  1,   50, new String[]{"XL"}),
+        new RomanNumeralToken("XC", 1,   90, new String[]{"L", "XL", "X"}),
+        new RomanNumeralToken("C",  3,  100, new String[]{}),
+        new RomanNumeralToken("CD", 1,  400, new String[]{"C"}),
+        new RomanNumeralToken("D",  1,  500, new String[]{"CD"}),
+        new RomanNumeralToken("CM", 1,  900, new String[]{"D", "CD", "C"}),
+        new RomanNumeralToken("M",  3, 1000, new String[]{}),
     };
 
     /**
@@ -94,32 +94,40 @@ public class RomanNumeralParser
         throws IllegalArgumentException
     {
         String[] tokens = mAnalyser.analyse(number);
-        return parseTokens(tokens);
+        parseTokens(tokens);
+        return calculateValue(tokens);
     }
 
     /**
      * Verify the syntax of the lexical tokens. If the syntax is valid,
-     * return their Arabic value. Otherwise throw an exception.
+     * return normally, Otherwise throw an exception.
      * 
      * @param tokens the lexical tokens
      * 
-     * @return The Arabic value of the tokens.
-     * 
      * @throws IllegalArgumentException invalid syntax
      */
-    private int parseTokens(String[] tokens)
+    private void parseTokens(String[] tokens)
     {
         for (ITokensValidator rule : mParsingRules)
         {
             rule.validate(tokens);
         }
+    }
 
+    /**
+     * Calculates the Arabic value of the given Roman numeral tokens.
+     * 
+     * @param tokens the Roman numeral tokens
+     * 
+     * @return The corresponding Arabic value.
+     */
+    private int calculateValue(String[] tokens)
+    {
         int arabicNumber = 0;
         for (int i = 0; i < tokens.length; i++)
         {
             arabicNumber += mTokens.get(tokens[i]).getArabicValue();
         }
-
         return arabicNumber;
     }
 }

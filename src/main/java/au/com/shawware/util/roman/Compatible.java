@@ -47,34 +47,14 @@ public class Compatible implements ITokensValidator
     {
         ValueCounter<String> counts = TokenCounter.countTokens(tokens);
 
-        // Verify the incompatible tokens as per the rules
-        checkForIncompatible(counts, "CM", new String[]{"C", "CD", "D"});
-        checkForIncompatible(counts, "CD", new String[]{"C", "D"});
-        checkForIncompatible(counts, "XC", new String[]{"X", "XL", "L"});
-        checkForIncompatible(counts, "XL", new String[]{"X", "L"});
-        checkForIncompatible(counts, "IX", new String[]{"I", "IV", "V"});
-        checkForIncompatible(counts, "IV", new String[]{"I", "V"});
-    }
-
-    /**
-     * Checks for incompatible tokens.
-     * 
-     * @param counts the token counts
-     * @param token the token to test
-     * @param incompatible the set of tokens it is incompatible with
-     * 
-     * @throws IllegalArgumentException an incompatibility is found
-     */
-    @SuppressWarnings({ "static-method", "nls" })
-    private void checkForIncompatible(ValueCounter<String> counts, String token, String[] incompatible)
-    {
-        if (counts.count(token) > 0)
+        for (int i = 0; i < tokens.length; i++)
         {
-            for (int i = 0; i < incompatible.length; i++)
+            String[] incompatibleTokens = mTokens.get(tokens[i]).getIncompatibleTokens();
+            for (int j = 0; j < incompatibleTokens.length; j++)
             {
-                if (counts.count(incompatible[i]) > 0)
+                if (counts.count(incompatibleTokens[j]) > 0)
                 {
-                    throw new IllegalArgumentException(token + " is incompatible with " + incompatible[i]);
+                    throw new IllegalArgumentException(tokens[i] + " is incompatible with " + incompatibleTokens[j]);
                 }
             }
         }

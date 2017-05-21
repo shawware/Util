@@ -7,6 +7,8 @@
 
 package au.com.shawware.util.roman;
 
+import au.com.shawware.util.StringUtil;
+
 /**
  * Holds the key properties of a Roman numeral token.
  *
@@ -30,17 +32,24 @@ public class RomanNumeralToken
     private final int mArabicValue;
 
     /**
+     * The names of tokens of lesser value that this token is incompatible with
+     */
+    private final String[] mIncompatibleTokens;
+
+    /**
      * Constructs a new token.
      * 
      * @param token the Roman value of this token
      * @param maxCount the maximum number of times this token can appear
      * @param arabicValue the Arabic value of this token
+     * @param incompatibleTokens incompatible tokens
      */
-    public RomanNumeralToken(String token, int maxCount, int arabicValue)
+    public RomanNumeralToken(String token, int maxCount, int arabicValue, String[] incompatibleTokens)
     {
-        mToken       = token;
-        mMaxCount    = maxCount;
-        mArabicValue = arabicValue;
+        mToken              = token;
+        mMaxCount           = maxCount;
+        mArabicValue        = arabicValue;
+        mIncompatibleTokens = incompatibleTokens;
     }
 
     /**
@@ -67,10 +76,18 @@ public class RomanNumeralToken
         return mArabicValue;
     }
 
+    /**
+     * @return The tokens of lesser value that are incompatible with this token.
+     */
+    public String[] getIncompatibleTokens()
+    {
+        return mIncompatibleTokens;
+    }
+
     @SuppressWarnings("nls")
     @Override
     public String toString()
     {
-        return "[" + mToken + ", " + mMaxCount + ", " + mArabicValue + "]";
+        return "[" + mToken + ", " + mMaxCount + ", " + mArabicValue + ", " + StringUtil.toString(mIncompatibleTokens) + "]";
     }
 }
