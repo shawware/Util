@@ -5,7 +5,7 @@
   <description>Shawware Java Utility Code
 
 A collection of simple utility classes for use in Java development.</description>
-  <version>0.9.13</version>
+  <version>0.9.14</version>
   <url>https://github.com/shawware/Util</url>
   <parent>
     <groupId>au.com.shawware</groupId>
@@ -19,4 +19,11 @@ A collection of simple utility classes for use in Java development.</description
     <tag>HEAD</tag>
   </scm>
   <packaging>jar</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.slf4j</groupId>
+  		<artifactId>slf4j-api</artifactId>
+  		<version>1.7.9</version>
+  	</dependency>
+  </dependencies>
 </project>

@@ -9,6 +9,8 @@
 
 package au.com.shawware.util;
 
+import java.util.StringJoiner;
+
 /**
  * A set of utility functions based around strings.
  */
@@ -25,27 +27,22 @@ public class StringUtil
      * Converts the given array of objects to a single string of comma-separated values.
      * Each object is converted to a string using its {@link Object#toString()} method.
      * 
-     * @param o the array of object to convert
+     * @param array the array of object to convert
      * 
      * @return the corresponding string
      */
-    public static String toString(final Object[] o)
+    public static String toString(final Object[] array)
     {
-        if ((o == null) || (o.length == 0))
+        if ((array == null) || (array.length == 0))
         {
             return EMPTY;
         }
-        final StringBuilder sb = new StringBuilder();
-        final int max = o.length - 1;
-        for (int i = 0; i <= max; i++)
+        final StringJoiner sj = new StringJoiner(COMMA_SEP);
+        for (Object o : array)
         {
-            sb.append((o[i] != null) ? o[i].toString() : EMPTY);
-            if (i < max)
-            {
-                sb.append(COMMA_SEP);
-            }
+            sj.add((o != null) ? o.toString() : EMPTY);
         }
-        return sb.toString();
+        return sj.toString();
     }
 
     /**
@@ -55,7 +52,7 @@ public class StringUtil
      * 
      * N.B. If an individual value contains the quote character itself, no special action is taken.
      * 
-     * @param o the array of object to convert
+     * @param array the array of objects to convert
      * @param quote the character to quote individual values with
      * 
      * @return the corresponding string
@@ -63,25 +60,20 @@ public class StringUtil
      * TODO: We use this for SQL quoting at present. Should we use a boolean?
      * TODO: For SQL quoting we should escape inner quotes.
      */
-    public static String toString(final Object[] o, final char quote)
+    public static String toString(final Object[] array, final char quote)
     {
-        if ((o == null) || (o.length == 0))
+        if ((array == null) || (array.length == 0))
         {
             return EMPTY;
         }
-        final StringBuilder sb = new StringBuilder();
-        final int max = o.length - 1;
-        for (int i = 0; i <= max; i++)
+        final StringJoiner sj = new StringJoiner(COMMA_SEP);
+        for (Object o : array)
         {
-            sb.append(quote)
-              .append((o[i] != null) ? o[i].toString() : EMPTY)
-              .append(quote);
-            if (i < max)
-            {
-                sb.append(COMMA_SEP);
-            }
+            String s = (o != null) ? o.toString() : EMPTY;
+            s = quote + s + quote;
+            sj.add(s);
         }
-        return sb.toString();
+        return sj.toString();
     }
 
     /**
@@ -93,7 +85,7 @@ public class StringUtil
      */
     public static boolean isEmpty(final String s)
     {
-        return (s == null) || (s.length() == 0);
+        return (s == null) || s.isEmpty();
     }
 
     /**
@@ -105,7 +97,7 @@ public class StringUtil
      */
     public static boolean isNotEmpty(final String s)
     {
-        return (s != null) && (s.length() > 0);
+        return (s != null) && !s.isEmpty();
     }
 
     /**
