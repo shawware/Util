@@ -10,7 +10,7 @@ A collection of simple utility classes for use in Java development.</description
   <parent>
     <groupId>au.com.shawware</groupId>
     <artifactId>sw-java-pom</artifactId>
-    <version>0.9.4</version>
+    <version>1.0.0</version>
   </parent>
   <scm>
     <url>https://github.com/shawware/Util</url>
