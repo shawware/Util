@@ -7,6 +7,11 @@
 
 package au.com.shawware.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,7 +20,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({ "boxing", "nls", "static-method" })
 public class StringUtilUnitTest
 {
     /**
@@ -121,17 +126,58 @@ public class StringUtilUnitTest
     }
 
     /**
-     * Test {@link StringUtil#toString(Object[])}.
+     * Test {@link StringUtil#toString(Object...)}.
+     */
+    @Test
+    public void testToString()
+    {
+        // Test the no values case. We need to cast to Object[] to make it clear it's a varargs call.
+//        verifyExceptionThrown(() -> StringUtil.toString((Object[])null), IllegalArgumentException.class, "No values supplied");
+
+        // Dummy up some attributes
+        boolean t = true, f = false;
+        int a = 1, b = 2, c = 3;
+        Object o = null;
+        int[] ai = { a, c, b };
+        Integer[] aI = { a, c, b };
+        List<Integer> li = new ArrayList<>();
+        li.add(1); li.add(2); li.add(3);
+        String[] as = { "alpha", "beta", null, "delta"};
+        SwResult r1 = SwResult.failedWith(-10, "Bad");
+        SwResult r2 = new SwResult(true, 0, "Good");
+        SwResult[] ar = { r2, r1 };
+        String s = "str";
+        Map<String, String> map = new HashMap<>();
+        map.put("alpha", "a");
+        map.put("beta",  "b");
+        map.put("gamma", "c");
+
+        Assert.assertEquals("{null}", StringUtil.toString(o));
+        Assert.assertEquals("{1}", StringUtil.toString(a));
+        Assert.assertEquals("{str}", StringUtil.toString(s));
+        Assert.assertEquals("{1, 2}", StringUtil.toString(a, b));
+        Assert.assertEquals("{3, true, 2, false, 1}", StringUtil.toString(c, t, b, f, a));
+        Assert.assertEquals("{3, [1, 3, 2], [1, 3, 2], [1, 2, 3], 1}", StringUtil.toString(c, ai, aI, li, a));
+        Assert.assertEquals("{alpha, beta, null, delta}", StringUtil.toString((Object[])as));
+        Assert.assertEquals("{false, -10, Bad}", r1.toString());
+        Assert.assertEquals("{null, {false, -10, Bad}, str}", StringUtil.toString(o, r1, s));
+        Assert.assertEquals("{[{true, 0, Good}, {false, -10, Bad}]}", StringUtil.toString((Object)ar));
+        Assert.assertEquals("{{true, 0, Good}, {false, -10, Bad}}", StringUtil.toString((Object[])ar));
+        Assert.assertEquals("{{alpha=a, beta=b, gamma=c}}", StringUtil.toString(map));
+        Assert.assertEquals("{str, [a, b, c], 2}", StringUtil.toString(s, map.values(), b));
+    }
+
+    /**
+     * Test {@link StringUtil#arrayToString(Object[])}.
      */
     @Test
     public void toStringTest()
     {
-        Assert.assertEquals("", StringUtil.toString(null));
-        Assert.assertEquals("", StringUtil.toString(new Object[0]));
-        Assert.assertEquals("", StringUtil.toString(new Object[]{}));
-        Assert.assertEquals("", StringUtil.toString(new Object[1]));
+        Assert.assertEquals("", StringUtil.arrayToString(null));
+        Assert.assertEquals("", StringUtil.arrayToString(new Object[0]));
+        Assert.assertEquals("", StringUtil.arrayToString(new Object[]{}));
+        Assert.assertEquals("", StringUtil.arrayToString(new Object[1]));
 
-        @SuppressWarnings("boxing")
         final Object[][] data = new Object[][]
         {
             { new String[]{ "", "" }, ", "},
@@ -150,7 +196,7 @@ public class StringUtilUnitTest
         {
             final Object[] o  = (Object[])data[i][0];
             final String expected = (String)data[i][1];
-            final String actual = StringUtil.toString(o);
+            final String actual = StringUtil.arrayToString(o);
             Assert.assertEquals("key[" + i + "]", expected, actual);
         }
     }
@@ -159,7 +205,6 @@ public class StringUtilUnitTest
      * Test {@link StringUtil#toString(Object[], char)}.
      */
     @Test
-    @SuppressWarnings("boxing")
     public void toStringWithQuotesTest()
     {
         Assert.assertEquals("", StringUtil.toString(null, '\''));

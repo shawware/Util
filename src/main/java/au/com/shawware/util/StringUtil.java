@@ -9,6 +9,7 @@
 
 package au.com.shawware.util;
 
+import java.lang.reflect.Array;
 import java.util.StringJoiner;
 
 /**
@@ -16,12 +17,74 @@ import java.util.StringJoiner;
  */
 public class StringUtil
 {
+    /** Define the comma separator. */
+    public static final String COMMA_SEP = ", "; //$NON-NLS-1$
+
     /** Define the empty string. */
     private static final String EMPTY = ""; //$NON-NLS-1$
     /** Define the key element separator. */
     private static final String KEY_ELT_SEP = " :: "; //$NON-NLS-1$
-    /** Define the comma separator. */
-    private static final String COMMA_SEP = ", "; //$NON-NLS-1$
+    /** Define the null string. */
+    private static final String NULL = "null"; //$NON-NLS-1$
+    /** Define the left structure delimiter. */
+    private static final String STRUCTURE_DELIMITER_LEFT = "{"; //$NON-NLS-1$
+    /** Define the right structure delimiter. */
+    private static final String STRUCTURE_DELIMITER_RIGHT = "}"; //$NON-NLS-1$
+    /** Define the left array delimiter. */
+    private static final String ARRAY_DELIMITER_LEFT = "["; //$NON-NLS-1$
+    /** Define the right array delimiter. */
+    private static final String ARRAY_DELIMITER_RIGHT = "]"; //$NON-NLS-1$
+
+
+    /**
+     * Combine the given values into a single string. This is intended to be
+     * used to provide a consistent means for classes to present their state
+     * when they override {@link Object#toString()}.
+     *
+     * The given values are assumed to be the class's attributes. The class
+     * is treated roughly like a structure and these attributes are delimited
+     * by curly braces. If an attribute is an array, then its elements are
+     * handled separately and delimited by square brackets.
+     *
+     * Null values are included as "null" and all values are separated by
+     * commas.
+     *
+     * @param values the values to include in the result
+     *
+     * @return The formatted result.
+     */
+    public static String toString(Object... values)
+    {
+        if ((values == null) || (values.length == 0))
+        {
+            throw new IllegalArgumentException("No values supplied");
+        }
+        StringJoiner sj = new StringJoiner(COMMA_SEP, STRUCTURE_DELIMITER_LEFT, STRUCTURE_DELIMITER_RIGHT);
+        for (Object value : values)
+        {
+            if (value == null)
+            {
+                sj.add(NULL);
+            }
+            else if (value.getClass().isArray())
+            {
+                StringJoiner asj = new StringJoiner(COMMA_SEP, ARRAY_DELIMITER_LEFT, ARRAY_DELIMITER_RIGHT);
+                // Use reflection to handle scalar and object arrays.
+                int length = Array.getLength(value);
+                for (int i = 0; i < length; i++)
+                {
+                    Object element = Array.get(value, i);
+                    asj.add(element.toString());
+                }
+                sj.add(asj.toString());
+            }
+            else
+            {
+                sj.add(value.toString());
+            }
+        }
+        return sj.toString();
+    }
 
     /**
      * Converts the given array of objects to a single string of comma-separated values.
@@ -31,7 +94,7 @@ public class StringUtil
      * 
      * @return the corresponding string
      */
-    public static String toString(final Object[] array)
+    public static String arrayToString(final Object[] array)
     {
         if ((array == null) || (array.length == 0))
         {
