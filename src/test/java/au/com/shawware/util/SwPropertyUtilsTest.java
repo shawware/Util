@@ -19,7 +19,7 @@ import org.junit.Assert;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({ "nls", "static-method" })
 public class SwPropertyUtilsTest
 {
     /**

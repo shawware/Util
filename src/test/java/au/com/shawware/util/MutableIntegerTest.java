@@ -13,18 +13,17 @@ import org.junit.Test;
 import org.junit.Assert;
 
 /**
- * Unit tests for {@link MutableInteger}. 
+ * Unit tests for {@link MutableInteger}.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({ "boxing", "nls", "static-method" })
 public class MutableIntegerTest
 {
     /**
      * Test the constructor.
      */
     @Test
-    @SuppressWarnings("boxing")
     public void constructorTests()
     {
         Assert.assertThat("no value constructor", 0, equalTo(new MutableInteger().getValue()));
@@ -39,7 +38,6 @@ public class MutableIntegerTest
      * 
      * @param value the initial value
      */
-    @SuppressWarnings("boxing")
     private void constructorTest(final int value)
     {
         final MutableInteger mi = new MutableInteger(value);
@@ -50,7 +48,6 @@ public class MutableIntegerTest
      * Test the {@link MutableInteger#getValue()} and {@link MutableInteger#setValue(int)}.
      */
     @Test
-    @SuppressWarnings("boxing")
     public void valueTests()
     {
         final MutableInteger mi = new MutableInteger();
@@ -71,7 +68,6 @@ public class MutableIntegerTest
      * {@link MutableInteger#decrement()} and {@link MutableInteger#decrementBy(int)}.
      */
     @Test
-    @SuppressWarnings("boxing")
     public void incDecTests()
     {
         final MutableInteger mi = new MutableInteger();

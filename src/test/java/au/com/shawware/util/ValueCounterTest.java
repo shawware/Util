@@ -17,7 +17,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({ "boxing", "nls", "static-method" })
 public class ValueCounterTest
 {
     /** The first value. */
@@ -73,7 +73,6 @@ public class ValueCounterTest
      * @param expectedCount3 the expected count of value 3
      * @param expectedTotal the expected total count for all values
      */
-    @SuppressWarnings("boxing")
     private void checkCounts(final ValueCounter<String> ctr,
             final int expectedSize, final int expectedCount1,
             final int expectedCount2, final int expectedCount3,

@@ -17,14 +17,13 @@ import org.junit.Assert;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({ "boxing", "nls", "static-method" })
 public class MutableBooleanTest
 {
     /**
      * Test the constructor.
      */
     @Test
-    @SuppressWarnings("boxing")
     public void constructorTests()
     {
         Assert.assertThat("no value constructor", false, equalTo(new MutableBoolean().getValue()));
@@ -38,7 +37,6 @@ public class MutableBooleanTest
      * 
      * @param value the initial value
      */
-    @SuppressWarnings("boxing")
     private void constructorTest(final boolean value)
     {
         final MutableBoolean mb = new MutableBoolean(value);
@@ -46,10 +44,9 @@ public class MutableBooleanTest
     }
 
     /**
-     * Test the {@link MutableBoolean#getValue()} and {@link MutableBoolean#setValue(bool)}.
+     * Test the {@link MutableBoolean#getValue()} and {@link MutableBoolean#setValue(boolean)}.
      */
     @Test
-    @SuppressWarnings("boxing")
     public void valueTests()
     {
         final MutableBoolean mb = new MutableBoolean();
@@ -66,7 +63,6 @@ public class MutableBooleanTest
      * Test the {@link MutableBoolean#toggle()}.
      */
     @Test
-    @SuppressWarnings("boxing")
     public void toggleTests()
     {
         final MutableBoolean mb = new MutableBoolean();

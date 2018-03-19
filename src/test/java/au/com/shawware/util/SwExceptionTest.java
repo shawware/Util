@@ -23,7 +23,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({ "unused", "nls", "static-method" })
 public class SwExceptionTest
 {
     /**
