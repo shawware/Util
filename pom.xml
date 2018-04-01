@@ -5,12 +5,12 @@
   <description>Shawware Java Utility Code
 
 A collection of simple utility classes for use in Java development.</description>
-  <version>0.9.14</version>
+  <version>1.0.1</version>
   <url>https://github.com/shawware/Util</url>
   <parent>
     <groupId>au.com.shawware</groupId>
     <artifactId>sw-java-pom</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
   </parent>
   <scm>
     <url>https://github.com/shawware/Util</url>
@@ -20,10 +20,15 @@ A collection of simple utility classes for use in Java development.</description
   </scm>
   <packaging>jar</packaging>
   <dependencies>
-  	<dependency>
-  		<groupId>org.slf4j</groupId>
-  		<artifactId>slf4j-api</artifactId>
-  		<version>1.7.9</version>
-  	</dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.9</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+    </dependency>
   </dependencies>
 </project>
