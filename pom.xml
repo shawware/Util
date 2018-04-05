@@ -5,7 +5,7 @@
   <description>Shawware Java Utility Code
 
 A collection of simple utility classes for use in Java development.</description>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <url>https://github.com/shawware/Util</url>
   <parent>
     <groupId>au.com.shawware</groupId>
@@ -29,6 +29,11 @@ A collection of simple utility classes for use in Java development.</description
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.9.0</version>
     </dependency>
   </dependencies>
 </project>
