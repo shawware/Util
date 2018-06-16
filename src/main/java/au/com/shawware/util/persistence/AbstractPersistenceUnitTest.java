@@ -20,7 +20,8 @@ import org.junit.BeforeClass;
 import au.com.shawware.util.test.AbstractUnitTest;
 
 /**
- * Base class for persistence unit tests.
+ * Base class for persistence unit tests. Included in the main
+ * source tree so libraries that build on this one can use it.
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
