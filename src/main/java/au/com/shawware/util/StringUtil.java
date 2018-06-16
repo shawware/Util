@@ -57,7 +57,7 @@ public class StringUtil
     {
         if ((values == null) || (values.length == 0))
         {
-            throw new IllegalArgumentException("No values supplied");
+            throw new IllegalArgumentException("No values supplied"); //$NON-NLS-1$
         }
         StringJoiner sj = new StringJoiner(COMMA_SEP, STRUCTURE_DELIMITER_LEFT, STRUCTURE_DELIMITER_RIGHT);
         for (Object value : values)

@@ -84,10 +84,10 @@ public class RomanNumeralToken
         return mIncompatibleTokens;
     }
 
-    @SuppressWarnings("nls")
     @Override
+    @SuppressWarnings("boxing")
     public String toString()
     {
-        return "[" + mToken + ", " + mMaxCount + ", " + mArabicValue + ", " + StringUtil.toString(mIncompatibleTokens) + "]";
+        return StringUtil.toString(mToken, mMaxCount, mArabicValue, mIncompatibleTokens);
     }
 }
