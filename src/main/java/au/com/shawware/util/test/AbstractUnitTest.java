@@ -6,6 +6,8 @@
  */
 package au.com.shawware.util.test;
 
+import java.util.concurrent.Callable;
+
 import org.junit.Assert;
 
 /**
@@ -43,11 +45,11 @@ public abstract class AbstractUnitTest
      * @param type the type of the exception expected to be thrown
      * @param text the expected error message
      */
-    protected final void verifyCheckedExceptionThrown(CodeThatThrowsException code, Class<? extends Throwable> type, String text)
+    protected final void verifyCheckedExceptionThrown(Callable<?> code, Class<? extends Throwable> type, String text)
     {
         try
         {
-            code.execute();
+            code.call();
             Assert.fail("unexpected success");
         }
         catch (Exception e)
