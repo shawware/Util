@@ -15,7 +15,7 @@ import au.com.shawware.util.test.AbstractUnitTest;
 /**
  * Exercise and verify our basic {@link IApplication} implementation.
  */
-public class ApplicationUnitTests extends AbstractUnitTest
+public class ApplicationUnitTest extends AbstractUnitTest
 {
     @Test
     @SuppressWarnings("nls")
