@@ -84,6 +84,27 @@ public class SwResult
     }
 
     /**
+     * Takes the given result and standardises its code if: (a) the result
+     * is unsuccessful; and (b) its code is not one of the standard error codes.
+     *
+     * @param result the result to standardise
+     * @param unrecoverable whether the standardised code should be unrecoverable or unexpected
+     *
+     * @return The standardised result
+     */
+    public static SwResult standardiseCode(SwResult result, boolean unrecoverable)
+    {
+        if (result.isUnsuccessful() && !result.hasStandardCode())
+        {
+            result = SwResult.failedWith(
+                    unrecoverable ? CODE_ERROR_UNRECOVERABLE : CODE_ERROR_UNEXPECTED,
+                    result.getMessage()
+            );
+        }
+        return result;
+    }
+
+    /**
      * @return Whether this result indicates success.
      */
     public boolean isSuccessful()
@@ -116,6 +137,16 @@ public class SwResult
     public boolean isIncomplete()
     {
         return (mCode == CODE_ERROR_INCOMPLETE);
+    }
+
+    /**
+     * Whether this result's code is one of the pre-defined standard codes.
+     *
+     * @return Whether this result's code is one of the pre-defined standard codes.
+     */
+    public boolean hasStandardCode()
+    {
+        return ((mCode >= CODE_OK) && (mCode <= CODE_ERROR_INVALID_INPUT));
     }
 
     /**
