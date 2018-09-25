@@ -16,10 +16,9 @@ import org.junit.Test;
 import au.com.shawware.util.test.AbstractUnitTest;
 
 /**
- * Exercise and verify our basic {@link ResultSet} implementation.
+ * Exercise and verify our {@link SwResult} and related classes.
  */
 @SuppressWarnings({ "nls", "static-method" })
-
 public class ResultUnitTest extends AbstractUnitTest
 {
     @Test
