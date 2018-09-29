@@ -16,12 +16,16 @@ Packages
 
 <pre>
 au.com.shawware.util
+au.com.shawware.util.cache
+au.com.shawware.util.html
 au.com.shawware.util.issues
+au.com.shawware.util.persistence
 au.com.shawware.util.roman
+au.com.shawware.util.test
+au.com.shawware.util.time
 </pre>
 
 License
 -------
 
 <a href="http://www.gnu.org/copyleft/gpl.html">GPL v3</a>
-
