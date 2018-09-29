@@ -21,7 +21,8 @@ public class StringUtil
     public static final String COMMA_SEP = ", "; //$NON-NLS-1$
 
     /** Define the empty string. */
-    private static final String EMPTY = ""; //$NON-NLS-1$
+    public static final String EMPTY = ""; //$NON-NLS-1$
+
     /** Define the key element separator. */
     private static final String KEY_ELT_SEP = " :: "; //$NON-NLS-1$
     /** Define the null string. */
