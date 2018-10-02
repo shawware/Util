@@ -21,10 +21,10 @@ public interface ITimeSource
     /**
      * @return The current time in milli-seconds since a fixed epoch.
      */
-    public long getTimeInMillis();
+    long getTimeInMillis();
     
     /**
      * @return The current date / time.
      */
-    public ZonedDateTime getDateTime();
+    ZonedDateTime getDateTime();
 }

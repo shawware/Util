@@ -31,7 +31,7 @@ public class Cache<KeyType, ValueType> implements ICache<KeyType, ValueType>
     private final NotNull<KeyType> NOT_NULL = new NotNull<>("cache key"); //$NON-NLS-1$
 
     /** The values held in this cache. */
-    private final Map<KeyType, CacheValue<ValueType>> mValues;
+    private final Map<KeyType, CachedValue<ValueType>> mValues;
     /** The maximum lifetime of an individual value. */
     private final Duration mLifetime;
     /** The clock to use to manage cache lifetimes. */
@@ -80,7 +80,7 @@ public class Cache<KeyType, ValueType> implements ICache<KeyType, ValueType>
         ValueType value = mSource.get(key);
         Instant now = Instant.ofEpochMilli(mClock.getTimeInMillis());
         Instant expiry = now.plus(mLifetime);
-        CacheValue<ValueType> cacheValue = new CacheValue<ValueType>(value, expiry.toEpochMilli());
+        CachedValue<ValueType> cacheValue = new CachedValue<>(value, expiry.toEpochMilli());
         mValues.put(key, cacheValue);
         return value;
     }
@@ -88,7 +88,7 @@ public class Cache<KeyType, ValueType> implements ICache<KeyType, ValueType>
     @Override
     public void refreshAll()
     {
-        mValues.keySet().forEach(key -> refresh(key));
+        mValues.keySet().forEach(this::refresh);
     }
 
     @Override

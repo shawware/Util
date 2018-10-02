@@ -23,6 +23,6 @@ public interface IValidator<Entity>
      * 
      * @throws IllegalArgumentException if the given entity is invalid
      */
-    public void validate(Entity entity)
+    void validate(Entity entity)
         throws IllegalArgumentException;
 }

@@ -16,7 +16,7 @@ import au.com.shawware.util.StringUtil;
  *
  * @param <ValueType> the value type
  */
-public class CacheValue<ValueType>
+public class CachedValue<ValueType>
 {
     /** The current value. */
     private ValueType mValue;
@@ -29,7 +29,7 @@ public class CacheValue<ValueType>
      * @param value the initial value
      * @param expiryTime the initial expiry time
      */
-    public CacheValue(ValueType value, long expiryTime)
+    public CachedValue(ValueType value, long expiryTime)
     {
         mValue      = value;
         mExpiryTime = expiryTime;

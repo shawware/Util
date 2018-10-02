@@ -30,7 +30,7 @@ public interface ICache<KeyType, ValueType>
      * 
      * @throws IllegalArgumentException null or unknown key
      */
-    public ValueType get(KeyType key)
+    ValueType get(KeyType key)
         throws IllegalArgumentException;
 
     /**
@@ -43,12 +43,12 @@ public interface ICache<KeyType, ValueType>
      * 
      * @throws IllegalArgumentException null or unknown key
      */
-    public ValueType refresh(KeyType key)
+    ValueType refresh(KeyType key)
         throws IllegalArgumentException;
 
     /**
      * Refreshes all the values in the cache whether or not they
      * have expired. This can be expensive.
      */
-    public void refreshAll();
+    void refreshAll();
 }
