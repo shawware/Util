@@ -39,7 +39,8 @@ public class CacheUnitTest extends AbstractUnitTest
         TestSource source          = new TestSource();
         MutableInteger mi          = null;
 
-        ICache<String, MutableInteger> cache = new Cache<>(cacheLifeTime, testClock, source);
+        // Test a cache where the source and cache key type is the same.
+        ICache<String, MutableInteger> cache = new Cache<>(cacheLifeTime, testClock, source, (key) -> key);
 
         verifyExceptionThrown(() -> cache.get(null),     IllegalArgumentException.class, "null cache key");
         verifyExceptionThrown(() -> cache.get("a"),      IllegalArgumentException.class, "Unknown source key: a");

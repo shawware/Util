@@ -22,22 +22,25 @@ import au.com.shawware.util.time.ITimeSource;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  *
- * @param <KeyType> the key type
+ * @param <CacheKeyType> the key type for the cache
+ * @param <SourceKeyType> the key type for the source
  * @param <ValueType> the value type
  */
-public class Cache<KeyType, ValueType> implements ICache<KeyType, ValueType>
+public class Cache<CacheKeyType, SourceKeyType, ValueType> implements ICache<CacheKeyType, ValueType>
 {
     /** A rule for validating the cache keys. */
-    private final NotNull<KeyType> NOT_NULL = new NotNull<>("cache key"); //$NON-NLS-1$
+    private final NotNull<CacheKeyType> NOT_NULL = new NotNull<>("cache key"); //$NON-NLS-1$
 
     /** The values held in this cache. */
-    private final Map<KeyType, CachedValue<ValueType>> mValues;
+    private final Map<SourceKeyType, CachedValue<ValueType>> mValues;
     /** The maximum lifetime of an individual value. */
     private final Duration mLifetime;
     /** The clock to use to manage cache lifetimes. */
     private final ITimeSource mClock;
     /** The source of values to store in the cache. */
-    private final ISource<KeyType, ValueType> mSource;
+    private final ISource<SourceKeyType, ValueType> mSource;
+    /** The transformer that maps cache keys to source keys. */
+    private final ITypeTransformer<CacheKeyType, SourceKeyType> mTransformer;
 
     /**
      * Constructs a new cache.
@@ -46,37 +49,54 @@ public class Cache<KeyType, ValueType> implements ICache<KeyType, ValueType>
      * @param clock the source of time
      * @param source where to source the actual values
      */
-    public Cache(Duration lifetime, ITimeSource clock, ISource<KeyType, ValueType> source)
+    public Cache(Duration lifetime, ITimeSource clock, ISource<SourceKeyType, ValueType> source, ITypeTransformer<CacheKeyType, SourceKeyType> transformer)
     {
-        mValues   = new HashMap<>();
-        mLifetime = lifetime;
-        mClock    = clock;
-        mSource   = source;
+        mValues      = new HashMap<>();
+        mLifetime    = lifetime;
+        mClock       = clock;
+        mSource      = source;
+        mTransformer = transformer;
     }
 
     @Override
-    public ValueType get(KeyType key)
+    public ValueType get(CacheKeyType key)
     {
         NOT_NULL.validate(key);
 
+        SourceKeyType transformedKey = mTransformer.transform(key);
+        
         ValueType value;
-        if (!mValues.containsKey(key) ||
-            (mValues.get(key).getExpiryTime() <= mClock.getTimeInMillis()))
+        if (!mValues.containsKey(transformedKey) ||
+            (mValues.get(transformedKey).getExpiryTime() <= mClock.getTimeInMillis()))
         {
-            value = refresh(key);
+            value = refreshFromSource(transformedKey);
         }
         else
         {
-            value = mValues.get(key).getValue();
+            value = mValues.get(transformedKey).getValue();
         }
         return value;
     }
 
     @Override
-    public ValueType refresh(KeyType key)
+    public ValueType refresh(CacheKeyType key)
     {
         NOT_NULL.validate(key);
 
+        SourceKeyType transformedKey = mTransformer.transform(key);
+
+        return refreshFromSource(transformedKey);
+    }
+
+    /**
+     * Refreshes the value for the given key.
+     * 
+     * @param key the source key
+     * 
+     * @return The latest value.
+     */
+    private ValueType refreshFromSource(SourceKeyType key)
+    {
         ValueType value = mSource.get(key);
         Instant now = Instant.ofEpochMilli(mClock.getTimeInMillis());
         Instant expiry = now.plus(mLifetime);
@@ -88,7 +108,7 @@ public class Cache<KeyType, ValueType> implements ICache<KeyType, ValueType>
     @Override
     public void refreshAll()
     {
-        mValues.keySet().forEach(this::refresh);
+        mValues.keySet().forEach(this::refreshFromSource);
     }
 
     @Override
