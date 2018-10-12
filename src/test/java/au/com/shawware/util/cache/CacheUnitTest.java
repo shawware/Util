@@ -23,7 +23,7 @@ import au.com.shawware.util.time.TestTime;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings("nls")
+@SuppressWarnings({"nls", "static-method"})
 public class CacheUnitTest extends AbstractUnitTest
 {
     /** How long a value is held in the cache before being refreshed. */
@@ -49,10 +49,8 @@ public class CacheUnitTest extends AbstractUnitTest
     @Test
     public void verifyCacheWithIdenticalKeyTypes()
     {
-        // Set up the local test fixtures.
         final int initialValue = 42;
         TestSource source      = new TestSource();
-        MutableInteger mi      = null;
 
         ICache<String, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, (key) -> key);
 
@@ -61,67 +59,27 @@ public class CacheUnitTest extends AbstractUnitTest
         source.addValue("k1", initialValue);
         source.addValue("k2", initialValue);
 
-        for (int i=0; i<sValueHeldFor; i++)
-        {
-            mi = cache.get("k1");
-            Assert.assertEquals(initialValue + 1, mi.getValue());
-        }
-        mi = cache.get("k1");
-        Assert.assertEquals(initialValue + 2, mi.getValue());
-        mi = cache.get("k2");
-        Assert.assertEquals(initialValue + 1, mi.getValue());
-
-        mi = cache.refresh("k1");
-        Assert.assertEquals(initialValue + 3, mi.getValue());
-        mi = cache.get("k2");
-        Assert.assertEquals(initialValue + 1, mi.getValue());
-
-        cache.refreshAll();
-        mi = cache.get("k1");
-        Assert.assertEquals(initialValue + 4, mi.getValue());
-        mi = cache.get("k2");
-        Assert.assertEquals(initialValue + 2, mi.getValue());
+        verifyCache(cache, source, initialValue, "k1", "k2");
     }
 
     @Test
     public void verifyCacheWithDifferentKeyTypes()
     {
-        // Set up the local test fixtures.
         final int initialValue = 101;
         TestSource source      = new TestSource();
-        MutableInteger mi      = null;
-        TestEntity entityA     = new TestEntity("a");
 
         ICache<TestEntity, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, (key) -> key.getName());
 
+        TestEntity entityA = new TestEntity("a");
         verifyErrorHandling(cache, entityA, "a");
 
-        TestEntity one = new TestEntity("k1");
-        TestEntity two = new TestEntity("k2");
+        TestEntity one = new TestEntity("e1");
+        TestEntity two = new TestEntity("e2");
 
-        source.addValue("k1", initialValue);
-        source.addValue("k2", initialValue);
+        source.addValue("e1", initialValue);
+        source.addValue("e2", initialValue);
 
-        for (int i=0; i<sValueHeldFor; i++)
-        {
-            mi = cache.get(one);
-            Assert.assertEquals(initialValue + 1, mi.getValue());
-        }
-        mi = cache.get(one);
-        Assert.assertEquals(initialValue + 2, mi.getValue());
-        mi = cache.get(two);
-        Assert.assertEquals(initialValue + 1, mi.getValue());
-
-        mi = cache.refresh(one);
-        Assert.assertEquals(initialValue + 3, mi.getValue());
-        mi = cache.get(two);
-        Assert.assertEquals(initialValue + 1, mi.getValue());
-
-        cache.refreshAll();
-        mi = cache.get(one);
-        Assert.assertEquals(initialValue + 4, mi.getValue());
-        mi = cache.get(two);
-        Assert.assertEquals(initialValue + 2, mi.getValue());
+        verifyCache(cache, source, initialValue, one, two);
     }
 
     /**
@@ -139,6 +97,44 @@ public class CacheUnitTest extends AbstractUnitTest
         verifyExceptionThrown(() -> cache.get(missingKey),     IllegalArgumentException.class, "Unknown source key: " + keyValue);
         verifyExceptionThrown(() -> cache.refresh(null),       IllegalArgumentException.class, "null cache key");
         verifyExceptionThrown(() -> cache.refresh(missingKey), IllegalArgumentException.class, "Unknown source key: " + keyValue);
+    }
+
+    /**
+     * Verify the cache behaviour for the given cache.
+     * 
+     * @param cache the cache under test
+     * @param source the test source to use
+     * @param initialValue the initial value for a cached value
+     * @param key1 the first key to a value present in the source
+     * @param key2 the second key to a value present in the source
+     * 
+     * @param <CacheKeyType> the cache key type
+     */
+    private <CacheKeyType> void verifyCache(ICache<CacheKeyType, MutableInteger> cache, TestSource source, int initialValue, CacheKeyType key1, CacheKeyType key2)
+    {
+        MutableInteger mi = null;
+
+        for (int i=0; i<sValueHeldFor; i++)
+        {
+            mi = cache.get(key1);
+            Assert.assertEquals(initialValue + 1, mi.getValue());
+        }
+
+        mi = cache.get(key1);
+        Assert.assertEquals(initialValue + 2, mi.getValue());
+        mi = cache.get(key2);
+        Assert.assertEquals(initialValue + 1, mi.getValue());
+
+        mi = cache.refresh(key1);
+        Assert.assertEquals(initialValue + 3, mi.getValue());
+        mi = cache.get(key2);
+        Assert.assertEquals(initialValue + 1, mi.getValue());
+
+        cache.refreshAll();
+        mi = cache.get(key1);
+        Assert.assertEquals(initialValue + 4, mi.getValue());
+        mi = cache.get(key2);
+        Assert.assertEquals(initialValue + 2, mi.getValue());
     }
 
     @Test
