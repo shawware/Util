@@ -56,11 +56,8 @@ public class CacheUnitTest extends AbstractUnitTest
 
         ICache<String, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, (key) -> key);
 
-        verifyExceptionThrown(() -> cache.get(null),     IllegalArgumentException.class, "null cache key");
-        verifyExceptionThrown(() -> cache.get("a"),      IllegalArgumentException.class, "Unknown source key: a");
-        verifyExceptionThrown(() -> cache.refresh(null), IllegalArgumentException.class, "null cache key");
-        verifyExceptionThrown(() -> cache.refresh("a"),  IllegalArgumentException.class, "Unknown source key: a");
- 
+        verifyErrorHandling(cache, "a", "a");
+
         source.addValue("k1", initialValue);
         source.addValue("k2", initialValue);
 
@@ -97,10 +94,7 @@ public class CacheUnitTest extends AbstractUnitTest
 
         ICache<TestEntity, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, (key) -> key.getName());
 
-        verifyExceptionThrown(() -> cache.get(null),        IllegalArgumentException.class, "null cache key");
-        verifyExceptionThrown(() -> cache.get(entityA),     IllegalArgumentException.class, "Unknown source key: a");
-        verifyExceptionThrown(() -> cache.refresh(null),    IllegalArgumentException.class, "null cache key");
-        verifyExceptionThrown(() -> cache.refresh(entityA), IllegalArgumentException.class, "Unknown source key: a");
+        verifyErrorHandling(cache, entityA, "a");
 
         TestEntity one = new TestEntity("k1");
         TestEntity two = new TestEntity("k2");
@@ -128,6 +122,23 @@ public class CacheUnitTest extends AbstractUnitTest
         Assert.assertEquals(initialValue + 4, mi.getValue());
         mi = cache.get(two);
         Assert.assertEquals(initialValue + 2, mi.getValue());
+    }
+
+    /**
+     * Verify the error handling for the given cache.
+     * 
+     * @param cache the cache under test
+     * @param missingKey a key that is not present in the cache
+     * @param keyValue the value of that key (as a String)
+     * 
+     * @param <CacheKeyType> the cache key type
+     */
+    private <CacheKeyType> void verifyErrorHandling(ICache<CacheKeyType, MutableInteger> cache, CacheKeyType missingKey, String keyValue)
+    {
+        verifyExceptionThrown(() -> cache.get(null),           IllegalArgumentException.class, "null cache key");
+        verifyExceptionThrown(() -> cache.get(missingKey),     IllegalArgumentException.class, "Unknown source key: " + keyValue);
+        verifyExceptionThrown(() -> cache.refresh(null),       IllegalArgumentException.class, "null cache key");
+        verifyExceptionThrown(() -> cache.refresh(missingKey), IllegalArgumentException.class, "Unknown source key: " + keyValue);
     }
 
     @Test
