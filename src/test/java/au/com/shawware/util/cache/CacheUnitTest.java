@@ -52,14 +52,14 @@ public class CacheUnitTest extends AbstractUnitTest
         final int initialValue = 42;
         TestSource source      = new TestSource();
 
-        ICache<String, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, (key) -> key);
+        ICache<String, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, key -> key);
 
         verifyErrorHandling(cache, "a", "a");
 
         source.addValue("k1", initialValue);
         source.addValue("k2", initialValue);
 
-        verifyCache(cache, source, initialValue, "k1", "k2");
+        verifyCache(cache, initialValue, "k1", "k2");
     }
 
     @Test
@@ -68,7 +68,7 @@ public class CacheUnitTest extends AbstractUnitTest
         final int initialValue = 101;
         TestSource source      = new TestSource();
 
-        ICache<TestEntity, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, (key) -> key.getName());
+        ICache<TestEntity, MutableInteger> cache = new Cache<>(sCacheLifeTime, sTestClock, source, TestEntity::getName);
 
         TestEntity entityA = new TestEntity("a");
         verifyErrorHandling(cache, entityA, "a");
@@ -79,7 +79,7 @@ public class CacheUnitTest extends AbstractUnitTest
         source.addValue("e1", initialValue);
         source.addValue("e2", initialValue);
 
-        verifyCache(cache, source, initialValue, one, two);
+        verifyCache(cache, initialValue, one, two);
     }
 
     /**
@@ -103,14 +103,13 @@ public class CacheUnitTest extends AbstractUnitTest
      * Verify the cache behaviour for the given cache.
      * 
      * @param cache the cache under test
-     * @param source the test source to use
      * @param initialValue the initial value for a cached value
      * @param key1 the first key to a value present in the source
      * @param key2 the second key to a value present in the source
      * 
      * @param <CacheKeyType> the cache key type
      */
-    private <CacheKeyType> void verifyCache(ICache<CacheKeyType, MutableInteger> cache, TestSource source, int initialValue, CacheKeyType key1, CacheKeyType key2)
+    private <CacheKeyType> void verifyCache(ICache<CacheKeyType, MutableInteger> cache, int initialValue, CacheKeyType key1, CacheKeyType key2)
     {
         MutableInteger mi = null;
 
