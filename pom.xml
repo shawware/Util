@@ -18,6 +18,14 @@ A collection of simple utility classes for use in Java development.</description
     <developerConnection>scm:git:git@github.com:shawware/Util.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+  <repositories>
+    <repository>
+      <id>shawware</id>
+      <name>Shawware Maven Repository</name>
+      <url>http://repo.shawware.com.au/maven2</url>
+      <layout>default</layout>
+    </repository>
+  </repositories>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
