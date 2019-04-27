@@ -75,7 +75,8 @@ public class StringUtil
                 for (int i = 0; i < length; i++)
                 {
                     Object element = Array.get(value, i);
-                    asj.add(element.toString());
+                    String elementAsString = (element == null) ? NULL : element.toString();
+                    asj.add(elementAsString);
                 }
                 sj.add(asj.toString());
             }

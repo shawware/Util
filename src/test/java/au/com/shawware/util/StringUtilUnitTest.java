@@ -138,6 +138,8 @@ public class StringUtilUnitTest
         boolean t = true, f = false;
         int a = 1, b = 2, c = 3;
         Object o = null;
+        String[] none = new String[0];
+        Object empty = new String[]{"a", null};
         int[] ai = { a, c, b };
         Integer[] aI = { a, c, b };
         List<Integer> li = new ArrayList<>();
@@ -154,6 +156,9 @@ public class StringUtilUnitTest
 
         Assert.assertEquals("{null}", StringUtil.toString(o));
         Assert.assertEquals("{1}", StringUtil.toString(a));
+        Assert.assertEquals("{1, null}", StringUtil.toString(a, null));
+        Assert.assertEquals("{1, []}", StringUtil.toString(a, none));
+        Assert.assertEquals("{[a, null]}", StringUtil.toString(empty));
         Assert.assertEquals("{str}", StringUtil.toString(s));
         Assert.assertEquals("{1, 2}", StringUtil.toString(a, b));
         Assert.assertEquals("{3, true, 2, false, 1}", StringUtil.toString(c, t, b, f, a));
@@ -165,6 +170,7 @@ public class StringUtilUnitTest
         Assert.assertEquals("{{true, 0, Good}, {false, -10, Bad}}", StringUtil.toString((Object[])ar));
         Assert.assertEquals("{{alpha=a, beta=b, gamma=c}}", StringUtil.toString(map));
         Assert.assertEquals("{str, [a, b, c], 2}", StringUtil.toString(s, map.values(), b));
+        Assert.assertEquals("{{true, 0, Good}, [a, null], [alpha, beta, null, delta]}", StringUtil.toString(r2, empty, as));
     }
 
     /**
