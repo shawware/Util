@@ -8,6 +8,7 @@
 package au.com.shawware.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 import org.junit.Assert;
@@ -26,7 +27,7 @@ public class MutableBooleanTest
     @Test
     public void constructorTests()
     {
-        Assert.assertThat("no value constructor", false, equalTo(new MutableBoolean().getValue()));
+        assertThat("no value constructor", false, equalTo(new MutableBoolean().getValue()));
 
         constructorTest(false);
         constructorTest(true);
@@ -40,7 +41,7 @@ public class MutableBooleanTest
     private void constructorTest(final boolean value)
     {
         final MutableBoolean mb = new MutableBoolean(value);
-        Assert.assertThat("constructor(" + value + ")", value, equalTo(mb.getValue()));
+        assertThat("constructor(" + value + ")", value, equalTo(mb.getValue()));
     }
 
     /**
@@ -52,11 +53,11 @@ public class MutableBooleanTest
         final MutableBoolean mb = new MutableBoolean();
 
         mb.setValue(true);
-        Assert.assertThat("setValue(true)", true, equalTo(mb.getValue()));
-        Assert.assertThat("toString(true)", "true", equalTo(mb.toString()));
+        assertThat("setValue(true)", true, equalTo(mb.getValue()));
+        assertThat("toString(true)", "true", equalTo(mb.toString()));
         mb.setValue(false);
-        Assert.assertThat("setValue(false)", false, equalTo(mb.getValue()));
-        Assert.assertThat("toString(false)", "false", equalTo(mb.toString()));
+        assertThat("setValue(false)", false, equalTo(mb.getValue()));
+        assertThat("toString(false)", "false", equalTo(mb.toString()));
     }
 
     /**
@@ -67,17 +68,18 @@ public class MutableBooleanTest
     {
         final MutableBoolean mb = new MutableBoolean();
 
-        Assert.assertThat("toggle 1", false, equalTo(mb.getValue()));
+        assertThat("toggle 1", false, equalTo(mb.getValue()));
         mb.toggle();
-        Assert.assertThat("toggle 2", true, equalTo(mb.getValue()));
+        assertThat("toggle 2", true, equalTo(mb.getValue()));
         mb.toggle();
-        Assert.assertThat("toggle 3", false, equalTo(mb.getValue()));
+        assertThat("toggle 3", false, equalTo(mb.getValue()));
     }
 
     /**
      * Test the {@link MutableBoolean#equals(Object)}.
      */
     @Test
+    @SuppressWarnings("unlikely-arg-type")
     public void equalsTests()
     {
         final MutableBoolean mbA = new MutableBoolean();

@@ -9,8 +9,9 @@ package au.com.shawware.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Unit tests for {@link ValueCounter}. 
@@ -78,10 +79,10 @@ public class ValueCounterTest
             final int expectedCount2, final int expectedCount3,
             final int expectedTotal)
     {
-        Assert.assertThat(ctr.values().size(), equalTo(expectedSize));
-        Assert.assertThat(ctr.count(VALUE_1), equalTo(expectedCount1));
-        Assert.assertThat(ctr.count(VALUE_2), equalTo(expectedCount2));
-        Assert.assertThat(ctr.count(VALUE_3), equalTo(expectedCount3));
-        Assert.assertThat(ctr.totalCount(), equalTo(expectedTotal));
+        assertThat(ctr.values().size(), equalTo(expectedSize));
+        assertThat(ctr.count(VALUE_1), equalTo(expectedCount1));
+        assertThat(ctr.count(VALUE_2), equalTo(expectedCount2));
+        assertThat(ctr.count(VALUE_3), equalTo(expectedCount3));
+        assertThat(ctr.totalCount(), equalTo(expectedTotal));
     }
 }

@@ -8,7 +8,7 @@
 package au.com.shawware.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -23,7 +23,7 @@ import org.junit.Test;
  *
  * @author <a href="mailto:david.shaw@shawware.com.au">David Shaw</a>
  */
-@SuppressWarnings({ "unused", "nls", "static-method" })
+@SuppressWarnings({ "nls", "static-method" })
 public class SwExceptionTest
 {
     /**

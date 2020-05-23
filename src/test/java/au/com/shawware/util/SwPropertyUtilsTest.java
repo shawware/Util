@@ -8,11 +8,10 @@
 package au.com.shawware.util;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.junit.Assert;
 
 /**
  * Unit tests for {@link SwPropertyUtils}. 
@@ -62,7 +61,7 @@ public class SwPropertyUtilsTest
     private void appendTest(final String name, final String suffix, final String expectedResult)
     {
         final String result = SwPropertyUtils.appendSuffix(name, suffix);
-        Assert.assertThat("appendSuffix(\"" + name + "\", \"" + suffix + "\") failed", result, equalTo(expectedResult));
+        assertThat("appendSuffix(\"" + name + "\", \"" + suffix + "\") failed", result, equalTo(expectedResult));
     }
 
     /**
