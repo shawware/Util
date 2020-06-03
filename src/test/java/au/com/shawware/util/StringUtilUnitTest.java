@@ -153,6 +153,8 @@ public class StringUtilUnitTest
         map.put("alpha", "a");
         map.put("beta",  "b");
         map.put("gamma", "c");
+        SwResult[][] twoDarray = { { r1, r2 }, { r2, r1 } };
+        SwResult[][][] threeDarray = { { { r1, r2 }, { r2 } }, { { r1 }, { r2 } } };
 
         Assert.assertEquals("{null}", StringUtil.toString(o));
         Assert.assertEquals("{1}", StringUtil.toString(a));
@@ -168,6 +170,10 @@ public class StringUtilUnitTest
         Assert.assertEquals("{null, {false, -10, Bad}, str}", StringUtil.toString(o, r1, s));
         Assert.assertEquals("{[{true, 0, Good}, {false, -10, Bad}]}", StringUtil.toString((Object)ar));
         Assert.assertEquals("{{true, 0, Good}, {false, -10, Bad}}", StringUtil.toString((Object[])ar));
+        Assert.assertEquals("{[[{false, -10, Bad}, {true, 0, Good}], [{true, 0, Good}, {false, -10, Bad}]]}", StringUtil.toString((Object)twoDarray));
+        Assert.assertEquals("{[{false, -10, Bad}, {true, 0, Good}], [{true, 0, Good}, {false, -10, Bad}]}", StringUtil.toString((Object[])twoDarray));
+        Assert.assertEquals("{str, [[{false, -10, Bad}, {true, 0, Good}], [{true, 0, Good}, {false, -10, Bad}]]}", StringUtil.toString(s, twoDarray));
+        Assert.assertEquals("{[[[{false, -10, Bad}, {true, 0, Good}], [{true, 0, Good}]], [[{false, -10, Bad}], [{true, 0, Good}]]]}", StringUtil.toString((Object)threeDarray));
         Assert.assertEquals("{{alpha=a, beta=b, gamma=c}}", StringUtil.toString(map));
         Assert.assertEquals("{str, [a, b, c], 2}", StringUtil.toString(s, map.values(), b));
         Assert.assertEquals("{{true, 0, Good}, [a, null], [alpha, beta, null, delta]}", StringUtil.toString(r2, empty, as));
@@ -177,7 +183,7 @@ public class StringUtilUnitTest
      * Test {@link StringUtil#arrayToString(Object[])}.
      */
     @Test
-    public void toStringTest()
+    public void arrayToStringTest()
     {
         Assert.assertEquals("", StringUtil.arrayToString(null));
         Assert.assertEquals("", StringUtil.arrayToString(new Object[0]));
@@ -200,11 +206,21 @@ public class StringUtilUnitTest
 
         for (int i=0; i<data.length; i++)
         {
-            final Object[] o  = (Object[])data[i][0];
+            final Object[] o = (Object[])data[i][0];
             final String expected = (String)data[i][1];
             final String actual = StringUtil.arrayToString(o);
             Assert.assertEquals("key[" + i + "]", expected, actual);
         }
+
+        SwResult r1 = SwResult.failedWith(-10, "Bad");
+        SwResult r2 = new SwResult(true, 0, "Good");
+        SwResult[] ar = { r2, r1 };
+        SwResult[][] twoDarray = { { r1, r2 }, { r2, r1 } };
+        SwResult[][][] threeDarray = { { { r1, r2 }, { r2 } }, { { r1 }, { r2 } } };
+        
+        Assert.assertEquals("{true, 0, Good}, {false, -10, Bad}", StringUtil.arrayToString(ar));
+        Assert.assertEquals("[{false, -10, Bad}, {true, 0, Good}], [{true, 0, Good}, {false, -10, Bad}]", StringUtil.arrayToString(twoDarray));
+        Assert.assertEquals("[[{false, -10, Bad}, {true, 0, Good}], [{true, 0, Good}]], [[{false, -10, Bad}], [{true, 0, Good}]]", StringUtil.arrayToString(threeDarray));
     }
 
     /**
@@ -234,11 +250,21 @@ public class StringUtilUnitTest
 
         for (int i=0; i<data.length; i++)
         {
-            final Character quote  = (Character)data[i][0];
-            final Object[] o  = (Object[])data[i][1];
+            final Character quote = (Character)data[i][0];
+            final Object[] o = (Object[])data[i][1];
             final String expected = (String)data[i][2];
             final String actual = StringUtil.toString(o, quote);
             Assert.assertEquals("key[" + i + "]", expected, actual);
         }
-    }
+
+        SwResult r1 = SwResult.failedWith(-10, "Bad");
+        SwResult r2 = new SwResult(true, 0, "Good");
+        SwResult[] ar = { r2, r1 };
+        SwResult[][] twoDarray = { { r1, r2 }, { r2, r1 } };
+        SwResult[][][] threeDarray = { { { r1, r2 }, { r2 } }, { { r1 }, { r2 } } };
+        
+        Assert.assertEquals("'{true, 0, Good}', '{false, -10, Bad}'", StringUtil.toString(ar, '\''));
+        Assert.assertEquals("#[{false, -10, Bad}, {true, 0, Good}]#, #[{true, 0, Good}, {false, -10, Bad}]#", StringUtil.toString(twoDarray, '#'));
+        Assert.assertEquals("&[[{false, -10, Bad}, {true, 0, Good}], [{true, 0, Good}]]&, &[[{false, -10, Bad}], [{true, 0, Good}]]&", StringUtil.toString(threeDarray, '&'));
+}
 }

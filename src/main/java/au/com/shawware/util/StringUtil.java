@@ -63,29 +63,35 @@ public class StringUtil
         StringJoiner sj = new StringJoiner(COMMA_SEP, STRUCTURE_DELIMITER_LEFT, STRUCTURE_DELIMITER_RIGHT);
         for (Object value : values)
         {
-            if (value == null)
-            {
-                sj.add(NULL);
-            }
-            else if (value.getClass().isArray())
-            {
-                StringJoiner asj = new StringJoiner(COMMA_SEP, ARRAY_DELIMITER_LEFT, ARRAY_DELIMITER_RIGHT);
-                // Use reflection to handle scalar and object arrays.
-                int length = Array.getLength(value);
-                for (int i = 0; i < length; i++)
-                {
-                    Object element = Array.get(value, i);
-                    String elementAsString = (element == null) ? NULL : element.toString();
-                    asj.add(elementAsString);
-                }
-                sj.add(asj.toString());
-            }
-            else
-            {
-                sj.add(value.toString());
-            }
+            sj.add(toString(value));
         }
         return sj.toString();
+    }
+
+    private static String toString(Object value)
+    {
+        String result;
+        if (value == null)
+        {
+           result = NULL;
+        }
+        else if (value.getClass().isArray())
+        {
+            StringJoiner asj = new StringJoiner(COMMA_SEP, ARRAY_DELIMITER_LEFT, ARRAY_DELIMITER_RIGHT);
+            // Use reflection to handle scalar and object arrays.
+            int length = Array.getLength(value);
+            for (int i = 0; i < length; i++)
+            {
+                Object element = Array.get(value, i);
+                asj.add(toString(element));
+            }
+            result = asj.toString();
+        }
+        else
+        {
+            result = value.toString();
+        }
+        return result;
     }
 
     /**
@@ -105,7 +111,7 @@ public class StringUtil
         final StringJoiner sj = new StringJoiner(COMMA_SEP);
         for (Object o : array)
         {
-            sj.add((o != null) ? o.toString() : EMPTY);
+            sj.add((o != null) ? toString(o) : EMPTY);
         }
         return sj.toString();
     }
@@ -134,7 +140,7 @@ public class StringUtil
         final StringJoiner sj = new StringJoiner(COMMA_SEP);
         for (Object o : array)
         {
-            String s = (o != null) ? o.toString() : EMPTY;
+            String s = (o != null) ? toString(o) : EMPTY;
             s = quote + s + quote;
             sj.add(s);
         }
