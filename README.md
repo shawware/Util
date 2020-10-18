@@ -1,7 +1,7 @@
 Util
 ====
 
-Shawware Java Utility Code [![Build Status](https://travis-ci.org/shawware/Util.svg?branch=master)](https://travis-ci.org/shawware/Util)
+Shawware Java Utility Code [![Build Status](https://travis-ci.com/shawware/Util.svg?branch=master)](https://travis-ci.com/shawware/Util)
 
 A collection of simple utility classes for use in Java development.
 
