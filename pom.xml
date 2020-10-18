@@ -5,12 +5,12 @@
   <description>Shawware Java Utility Code
 
 A collection of simple utility classes for use in Java development.</description>
-  <version>1.2.12</version>
+  <version>1.2.13</version>
   <url>https://github.com/shawware/Util</url>
   <parent>
     <groupId>au.com.shawware</groupId>
     <artifactId>sw-java-pom</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
   </parent>
   <scm>
     <url>https://github.com/shawware/Util</url>
