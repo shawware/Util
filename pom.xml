@@ -46,7 +46,7 @@ A collection of simple utility classes for use in Java development.</description
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13</version>
+      <version>4.13.1</version>
     </dependency>
   </dependencies>
 </project>
