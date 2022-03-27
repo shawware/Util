@@ -8,7 +8,7 @@ A collection of simple utility classes for use in Java development.
 Owner And Copyright Notice
 --------------------------
 
-Copyright &copy; 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020 <a href="http://www.shawware.com.au/"
+Copyright &copy; 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022 <a href="http://www.shawware.com.au/"
 	  title="shawware | software and services you can count on">shawware.com.au</a>
 
 Packages
